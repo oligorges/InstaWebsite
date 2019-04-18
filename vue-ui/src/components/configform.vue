@@ -3,8 +3,8 @@
             
             <form>
                 <input name="_id" :value="setting._id" hidden>
-                <td><input type="text" name="key" placeholder="Key" :value="setting.key"></td>
-                <td><input type="text" name="value" placeholder="Value" :value="setting.value"></td>
+                <input class="tablecol" type="text" name="key" placeholder="Key" :value="setting.Key">
+                <input class="tablecol" type="text" name="value" placeholder="Value" :value="setting.Value">
             </form>
             
         </div>

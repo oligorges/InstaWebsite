@@ -33,7 +33,7 @@ CRUD.prototype.read = (req, res, next) => {
     
     req.DBContext.model.find(filter, req.body, (err, data) => {
         if (err){
-            res.send('Can`t find Object')
+            res.send({msg:'Can`t find Object'})
         } else{
             req.body = data
             next()

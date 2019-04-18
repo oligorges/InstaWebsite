@@ -34,7 +34,7 @@ export default {
 }
 .overlay{
     z-index: 10;
-    height: 100%; 
+    height: 55%; 
     width: 100%;
     position: absolute;
     margin: 0px;
@@ -45,6 +45,9 @@ export default {
     opacity: 0;
     transition: .3s ease;
     background-color:black;
+    color: white;
+    padding-top: 30%;
+    font-size: larger;
 }
 .imagebox:hover .overlay {
   opacity: 0.7;

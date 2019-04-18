@@ -2,7 +2,7 @@
         <div class="imagefiled">
             
             <form @blur="update" @focus="save">
-                <img class="tablecol" :src="element.Thumb" height="100px" name="Thumb">
+                <img class="tablecol" :src="element.Thumb" height="50px" name="Thumb">
                 <input @blur="console.log('Byby')" class="tablecol" type="text" name="Link" placeholder="Imagelink" :value="element.Link">
                 <input class="tablecol" type="text" name="Name" placeholder="Name" :value="element.Name">
                 <input class="tablecol" type="text" name="Igid" placeholder="Instagramm ID" :value="element.Igid">

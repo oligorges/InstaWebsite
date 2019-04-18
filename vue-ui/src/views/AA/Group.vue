@@ -1,13 +1,11 @@
 <template>
     <div >
         <h1>Topic AA</h1>
-        <table>
-            <tr>
-                <th>Name</th>
-                <th>Tag</th>
-            </tr>
-            <tr v-for="element in Topics" :key="element.name"><row  :elemente="element"></row></tr>
-        </table>
+        <div class="tablerow">
+            <p class="tablecol">Name</p>
+            <p class="tablecol">Tag</p>
+        </div>
+        <div class="tablerow" v-for="element in Topics" :key="element.Name"><row  :element="element"></row></div>
     </div>
 </template>
 

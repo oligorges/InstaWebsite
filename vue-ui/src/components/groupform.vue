@@ -2,10 +2,10 @@
         <div class="imagefiled">
             
             <form>
-                <img :src="element.Image" height="50px">
-                <td><input type="text" name="Image" placeholder="Preview Image" :value="element.Image"></td>
-                <td><input type="text" name="Name" placeholder="Name" :value="element.Name"></td>
-                <td><input type="text" name="Tag" placeholder="Tag" :value="element.Tag"></td>
+                <img class="tablecol" :src="element.Image" height="50px">
+                <input class="tablecol" type="text" name="Image" placeholder="Preview Image" :value="element.Image">
+                <input class="tablecol" type="text" name="Name" placeholder="Name" :value="element.Name">
+                <input class="tablecol" type="text" name="Tag" placeholder="Tag" :value="element.Tag">
             </form>
             
         </div>
