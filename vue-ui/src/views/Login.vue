@@ -20,22 +20,22 @@
         },
         methods: {
             login: function (){
-                alert('start')
                 const data = {
                     username: this.username,
                     password: encrypt(this.password)
                 }
-                axios.post('localhost:1234/login', data).then(res => {
-                    alert(res)
+                axios.post('/login', data).then(res => {
+                    
+                    this.$router.push('/aa/config')
                 }).catch(()=>{
-                    window.location.href = '#/aa/config'
+                    this.$router.push('/')
                 })
             }
         }
     }
 </script>
 
-<style>
+<style scoped>
 
 form{
     align-items: flex-start;

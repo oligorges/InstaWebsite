@@ -1,26 +1,40 @@
 <template>
     <div >
-        <h1>ImageAA</h1>
+        <h1>Topic AA</h1>
         <table>
             <tr>
                 <th>Name</th>
                 <th>Tag</th>
             </tr>
-            <tr v-for="element in getGroups()" :key="element.name"><row  :name="element.name" :tag="element.tag"></row></tr>
+            <tr v-for="element in Topics" :key="element.name"><row  :elemente="element"></row></tr>
         </table>
     </div>
 </template>
 
 <script>
     import row from '@/components/groupform.vue'
+    import axios from 'axios'
+
     export default {
         name: 'groupaa',
         components: {
             row
         },
-        methods:{
-            getGroups: () => {
-                return [{ name: 'General', tag:'gen'}, { name: 'Cats', tag:'cat'}, { name: 'Dogs', tag:'dog'}]
+        data:   function () {
+            return {
+                Topics: []
+            }
+        },
+        created: function(){
+            this.loadData()
+        },
+        methods: {
+            loadData() {
+                axios.get('/topic').then(top => {
+                    this.Topics = top.data
+                }).catch(()=>{
+                    alert('Cant load Topics')
+                })
             }
         }
     }

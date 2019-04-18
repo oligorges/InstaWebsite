@@ -1,13 +1,15 @@
 <template>
         <div class="imagefiled">
             
-            <form>
-                <td><input type="text" name="link" placeholder="Imagelink" :value="element.link"></td>
-                <td><input type="text" name="name" placeholder="Name" :value="element.name"></td>
-                <td><select name="group">
-                    <option v-for="item in element.groups" :key="item" :value="item">{{item}}</option>
-                </select></td>
-                <td><input type="checkbox" name="display" :value="element.display" ></td>
+            <form @blur="update" @focus="save">
+                <img class="tablecol" :src="element.Thumb" height="100px" name="Thumb">
+                <input @blur="console.log('Byby')" class="tablecol" type="text" name="Link" placeholder="Imagelink" :value="element.Link">
+                <input class="tablecol" type="text" name="Name" placeholder="Name" :value="element.Name">
+                <input class="tablecol" type="text" name="Igid" placeholder="Instagramm ID" :value="element.Igid">
+                <select class="tablecol" name="group" :value="element.Topic">
+                    <option v-for="item in Topics" :key="item.Name" :value="item.Name">{{item.Name}}</option>
+                </select>
+                <input class="tablecol" type="checkbox" name="display" :value="element.Displayed" >
             </form>
             
         </div>
@@ -17,12 +19,23 @@
     export default {
         name: 'imagebox',
         props: {
-            element: Object
-    
+            element: Object,
+            Topics: [Object],
         },
-        methods:{
-            update: ()=>{
+        data:   function () {
+            return {
+                oldElement: null
+            }
+        },
 
+        methods:{
+            update(){
+                if(this.oldElement !== this.element){
+                    alert('update')
+                }
+            },
+            save(){
+                this.oldElement = this.element
             }
         }
     }

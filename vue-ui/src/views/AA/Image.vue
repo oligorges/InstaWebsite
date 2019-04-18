@@ -1,37 +1,57 @@
 <template>
     
     <div >
-        <h1>ImageAA</h1>
-        <table>
-            <tr>
-                <th>Link</th>
-                <th>Name</th>
-                <th>Group</th>
-                <th>Display</th>
-            </tr>
-            <tr v-for="element in getImages()" :key="element.name"><row  :element="element"></row></tr>
-        </table>
+        <h1>Image AA</h1>
+        
+        <div class="tablerow">
+            <p class="tablecol big"></p>
+            <p class="tablecol big">Link</p>
+            <p class="tablecol big">Name</p>
+            <p class="tablecol big">IG ID</p>
+            <p class="tablecol big">Topic</p>
+            <p class="tablecol big">Display</p>
+        </div>
+        <div class="tablerow" v-for="element in Images" :key="element.Name"><row  :element="element" :topics="Topics"></row></div>
+        
     </div>
 </template>
 
 <script>
     import row from '@/components/imageform.vue'
+    import axios from 'axios'
+
     export default {
         name: 'imageaa',
+        data:   function () {
+            return {
+                Images: [],
+                Topics: []
+            }
+        },
         components: {
             row
         },
-        methods:{
-            getImages: () => {
-                return [
-                    { link: 'Cat1', name: 'Cat1', groups: ['General', 'Cats', 'Dogs'], display: false },
-                    { link: 'Cat2', name: 'Cat2', groups: ['General', 'Cats', 'Dogs'], display: false },
-                    { link: 'Cat3', name: 'Cat3', groups: ['General', 'Cats', 'Dogs'], display: false }
-                ]
+        created: function(){
+            this.loadData()
+        },
+        methods: {
+            loadData() {
+                axios.get('/image').then(img => {
+                    this.Images = img.data
+                }).catch(()=>{
+                    alert('Cant load Data')
+                })
+                axios.get('/topic').then(top => {
+                    this.Topics = top.data
+                }).catch(()=>{
+                    alert('Cant load Topics')
+                })
+                
             }
         }
     }
 </script>
 <style>
+    
 
 </style>

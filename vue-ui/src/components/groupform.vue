@@ -2,8 +2,10 @@
         <div class="imagefiled">
             
             <form>
-                <td><input type="text" name="name" placeholder="Name" :value="name"></td>
-                <td><input type="text" name="tag" placeholder="Tag" :value="tag"></td>
+                <img :src="element.Image" height="50px">
+                <td><input type="text" name="Image" placeholder="Preview Image" :value="element.Image"></td>
+                <td><input type="text" name="Name" placeholder="Name" :value="element.Name"></td>
+                <td><input type="text" name="Tag" placeholder="Tag" :value="element.Tag"></td>
             </form>
             
         </div>
@@ -11,10 +13,9 @@
     
     <script>
     export default {
-        name: 'imagebox',
+        name: 'imageform',
         props: {
-            name: String,
-            tag: String
+            element: Object
     
         },
         methods:{
