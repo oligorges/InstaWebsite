@@ -1,36 +1,21 @@
-const Device = {
-    IP: String,
-    MAC: String,
+const Image = {
+    Link: String,
+    Thumb: String,
     Name: String,
-    Desc: String,
-    Tags: [String],
-    Attrs: [{
-        Key: String,
-        Value: String
-    }],
-    Available: Boolean
+    Igid: String,
+    Topic: String,
+    Displayed: Boolean
 }
 
-const Service = {
+const Config = {
+    Key: String,
+    Value: String
+}
+
+const Topic = {
     Name: String,
-    Device: Number,
-    Port: Number,
-    Tags: [String],
-    Attrs: [{
-        Key: String,
-        Value: String
-    }],
-    Available: Boolean
+    Tag: String,
+    Image: String
 }
 
-const Blacklist = {
-    D: Number,
-    Type: {
-        type: String,
-        enum: ["mac", "ip"]
-    },
-    Value: String,
-    Res: String
-}
-
-module.exports = {Device, Service, Blacklist}
+module.exports = {Image, Config, Topic}

@@ -1,13 +1,14 @@
 const db = require('mongoose')
 
  
-function CRUD(collection /* String */, schema /* mongoose.Schema */) { 
-    CRUD.prototype.model = db.model(collection, schema)
+function CRUD (collection /* String */, schema /* mongoose.Schema */) { 
+    this.model = db.model(collection, schema)
     console.log('Model initialized ')
 }
 CRUD.prototype.create = (req, res, next) => {
-    if(!CRUD.prototype.model) throw new Error('No Model initialized')
-    CRUD.prototype.model.create(req.body, (err, data) => {
+    
+    if(!req.DBContext.model) throw new Error('No Model initialized')
+    req.DBContext.create(req.body, (err, data) => {
         if (err){
             res.send('Can`t create Object')
         } else{
@@ -18,7 +19,7 @@ CRUD.prototype.create = (req, res, next) => {
     })
 }
 CRUD.prototype.read = (req, res, next) => {
-    if(!CRUD.prototype.model) throw new Error('No Model initialized')
+    if(!req.DBContext.model) throw new Error('No Model initialized')
     if(req.query){ // for GET requests
         var filter = req.query
     }else if(req.body){ // for other requests
@@ -30,7 +31,7 @@ CRUD.prototype.read = (req, res, next) => {
         var filter = {_id: filter.id }
     }
     
-    CRUD.prototype.model.find(filter, req.body, (err, data) => {
+    req.DBContext.model.find(filter, req.body, (err, data) => {
         if (err){
             res.send('Can`t find Object')
         } else{
@@ -40,15 +41,15 @@ CRUD.prototype.read = (req, res, next) => {
         
     })
 }
-CRUD.prototype.update = (req, res, next) => {
-    if(!CRUD.prototype.model) throw new Error('No Model initialized')
+CRUD.prototype.update = function (req, res, next) {
+    if(!this.model) throw new Error('No Model initialized')
     if(req.body.id){
         var id = req.body.id
     }else{
         var id = -1 // no valid id
     }
     
-    CRUD.prototype.model.updateOne({_id: id }, req.body, (err, data) => {
+    this.model.updateOne({_id: id }, req.body, (err, data) => {
         if (err){
             res.send('Can`t update Object')
         } else{
@@ -58,8 +59,8 @@ CRUD.prototype.update = (req, res, next) => {
         
     })
 },
-CRUD.prototype.delete = (req, res, next) => {
-    if(!CRUD.prototype.model) throw new Error('No Model initialized')
+CRUD.prototype.delete = function (req, res, next) {
+    if(!this.model) throw new Error('No Model initialized')
     if(req.param.id){
         var id = req.param.id
     }else if(req.query.id){
@@ -70,7 +71,7 @@ CRUD.prototype.delete = (req, res, next) => {
         var id = -1 // no valid id
     }
     
-    CRUD.prototype.model.deleteOne({_id: id }, (err) => {
+    this.model.deleteOne({_id: id }, (err) => {
         if (err){
             res.send('Can`t delete Object')
         } else{
