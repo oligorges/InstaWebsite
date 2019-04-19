@@ -1,13 +1,18 @@
 const express = require('express')
 const app = express()
+const http = express()
+const fs = require('fs')
 const db = require('mongoose')
 const config = require('../config')
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
 const pass = require('passport')
+const LocalStrategy = require('passport-local').Strategy;
+const fb = require('passport')
+const FacebookStrategy = require('passport-facebook').Strategy
 const session = require('express-session')
 const helmet = require('helmet')
-const LocalStrategy = require('passport-local').Strategy;
+const https = require('https')
 require('dotenv').config();
 
 app.use(bodyParser.urlencoded({ extended: true })) // For Formdata
@@ -18,6 +23,15 @@ app.use(session({ secret: process.env.SessionSeed, resave: false, saveUninitiali
 app.use(pass.initialize())
 app.use(pass.session());
 app.enable('trust proxy')
+
+// Https
+const sslkey = fs.readFileSync('ssl-key.pem')
+const sslcert = fs.readFileSync('ssl-cert.pem')
+
+const options = {
+      key: sslkey,
+      cert: sslcert
+};
 
 // DB
 console.log(config.server)
@@ -37,6 +51,34 @@ pass.use(new LocalStrategy(
         return;
     }
 ));
+
+fb.use(new FacebookStrategy({
+    clientID: '2280501072191967',
+    clientSecret: 'f2e4a57cb6e0501fe8bcec6f7bf8dff2',
+    callbackURL: `https://localhost:${config.server.port}/auth/facebook/callback`
+  },
+  function(accessToken, refreshToken, profile, done) {
+      console.log('FB:', accessToken, refreshToken, profile)
+    done(err, profile)
+  }
+));
+
+app.get('/auth/facebook', fb.authenticate('facebook', { scope: ['user_photos', 'manage_pages'] }));
+
+app.get('/auth/facebook/callback',(req, res, next) => {
+    fb.authenticate('facebook', (err, user, info) => {
+      if (err) {
+        return next(err);
+      }
+      if (!user) {
+        return res.status(400).send(info);
+      }
+      req.login(user, err => {
+        res.send("Logged in");
+      });
+    })(req, res, next)
+})
+
 
 pass.serializeUser(function(user, cb) {
     console.log('Serial')
@@ -122,4 +164,8 @@ const adminArea = express.Router()
 require('./controllers/adminArea')(adminArea, login)
 app.use('/aa', adminArea)
 
-app.listen(config.server.port, () => { console.log(`Server is running on http://127.0.0.1:${config.server.port}`)})
+
+http.get('/',  (req, res) => { res.redirect(`https://localhost:${config.server.port}`)})
+
+http.listen(8080)
+https.createServer(options, app).listen( config.server.port, () => { console.log(`Server is running on https://localhost:${config.server.port}`)})

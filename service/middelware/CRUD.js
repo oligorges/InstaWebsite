@@ -7,7 +7,7 @@ CRUD.prototype.create = (req, res, next) => {
     if(!req.DBModel) throw new Error('No Model initialized')
     req.DBModel.create(req.body, (err, data) => {
         if (err){
-            res.send('Can`t create Object')
+            res.send({msg:'Can`t find Object'})
         } else{
             console.log(data, ' created')
             next()
@@ -48,7 +48,7 @@ CRUD.prototype.update = function (req, res, next) {
     
     this.model.updateOne({_id: id }, req.body, (err, data) => {
         if (err){
-            res.send('Can`t update Object')
+            res.send({msg:'Can`t find Object'})
         } else{
             console.log(`Object ${id} updated =>` , data)
             next()
@@ -70,7 +70,7 @@ CRUD.prototype.delete = function (req, res, next) {
     
     this.model.deleteOne({_id: id }, (err) => {
         if (err){
-            res.send('Can`t delete Object')
+            res.send({msg:'Can`t find Object'})
         } else{
             console.log(`Object ${id} deleted`)
             next()

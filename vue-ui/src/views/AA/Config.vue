@@ -6,7 +6,7 @@
             <p class="tablecol big">Value</p>
         </div>
         <div class="tablerow" v-for="element in Configuration" :key="element.key"><row  :setting="element"></row></div>
-        
+        <button @click="getFB">Gen Token</button>
     </div>
 </template>
 
@@ -34,11 +34,18 @@
                 }).catch(()=>{
                     alert('Cant load Configuration')
                 })
+            },
+            getFB(){
+                axios.get('/auth/facebook').then(config => {
+                    alert("FB Login")
+                }).catch(()=>{
+                    alert('Cant load Configuration')
+                })
             }
+            
         }
     }
 </script>
 <style>
-
 </style>
     

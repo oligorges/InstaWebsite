@@ -11,6 +11,7 @@
     "axios": "^0.18.0",
     "core-js": "^2.6.5",
     "js-sha512": "^0.8.0",
+    "passport-facebook": "^3.0.0",
     "vue": "^2.6.10",
     "vue-router": "^3.0.4"
   },

@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node server.js",
     "build": "cd ../vue-ui && npm run build && cd ../service node server.js ",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "genCerts": "openssl genrsa -out ssl-key.pem 4096 && openssl req -new -key ssl-key.pem -out certrequest.csr && openssl x509 -req -in certrequest.csr -signkey ssl-key.pem -out ssl-cert.pem"
   },
   "repository": {
     "type": "git",
@@ -29,10 +30,13 @@
     "dotenv": "^7.0.0",
     "express": "^4.16.4",
     "express-session": "^1.16.1",
+    "fs": "0.0.1-security",
     "helmet": "^3.16.0",
+    "https": "^1.0.0",
     "mongoose": "^5.4.19",
     "morgan": "^1.9.1",
     "passport": "^0.4.0",
+    "passport-facebook": "^3.0.0",
     "passport-local": "^1.0.0"
   },
   "apis": {
