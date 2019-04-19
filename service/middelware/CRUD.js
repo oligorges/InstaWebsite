@@ -1,14 +1,11 @@
-const db = require('mongoose')
 
  
-function CRUD (collection /* String */, schema /* mongoose.Schema */) { 
-    this.model = db.model(collection, schema)
-    console.log('Model initialized ')
+function CRUD () { 
 }
 CRUD.prototype.create = (req, res, next) => {
     
-    if(!req.DBContext.model) throw new Error('No Model initialized')
-    req.DBContext.create(req.body, (err, data) => {
+    if(!req.DBModel) throw new Error('No Model initialized')
+    req.DBModel.create(req.body, (err, data) => {
         if (err){
             res.send('Can`t create Object')
         } else{
@@ -19,7 +16,7 @@ CRUD.prototype.create = (req, res, next) => {
     })
 }
 CRUD.prototype.read = (req, res, next) => {
-    if(!req.DBContext.model) throw new Error('No Model initialized')
+    if(!req.DBModel) throw new Error('No Model initialized')
     if(req.query){ // for GET requests
         var filter = req.query
     }else if(req.body){ // for other requests
@@ -31,7 +28,7 @@ CRUD.prototype.read = (req, res, next) => {
         var filter = {_id: filter.id }
     }
     
-    req.DBContext.model.find(filter, req.body, (err, data) => {
+    req.DBModel.find(filter, req.body, (err, data) => {
         if (err){
             res.send({msg:'Can`t find Object'})
         } else{

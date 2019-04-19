@@ -2,9 +2,7 @@ const express = require('express')
 const app = express()
 const db = require('mongoose')
 const config = require('../config')
-const crud = require('./modules/CRUD')
 const bodyParser = require('body-parser')
-const schemas = require('./DBSchema')
 const morgan = require('morgan')
 const pass = require('passport')
 const session = require('express-session')
@@ -24,9 +22,6 @@ app.enable('trust proxy')
 // DB
 console.log(config.server)
 db.connect(`mongodb://${config.server.DBUrl}:${config.server.DBPort}/${config.server.DBTable}`, {useNewUrlParser: true})
-const cConfig = new crud('Config', new db.Schema(schemas.Config))
-const cImage = new crud('Image', new db.Schema(schemas.Image))
-const cTopic = new crud('Topic', new db.Schema(schemas.Topic))
 
 // Login 
 pass.use(new LocalStrategy(
@@ -68,28 +63,6 @@ const login = (req, res, next) => {
 
 app.use('/', express.static('../vue-ui/dist'))
 
-app.get('/login', login, (req, res) => {
-    res.sendStatus(200)
-})
-
-app.post('/login', (req, res, next) => {
-  pass.authenticate('local', (err, user, info) => {
-    if (err) {
-      return next(err);
-    }
-    if (!user) {
-      return res.status(400).send(info);
-    }
-    req.login(user, err => {
-      res.send("Logged in");
-    });
-  })(req, res, next)
-})
-
-app.get('/logout', function(req, res){
-    req.logout()
-    res.sendStatus(200)
-})
 
 app.delete('/database', function(req, res){
     cImage.model.collection.drop();
@@ -107,7 +80,7 @@ app.patch('/database', function(req, res){
         { Link: 'Cat6', Thumb:'https://www.catster.com/wp-content/uploads/2017/08/A-fluffy-cat-looking-funny-surprised-or-concerned.jpg', link: 'https://www.catster.com/wp-content/uploads/2017/08/A-fluffy-cat-looking-funny-surprised-or-concerned.jpg', Name: 'Cat6', Igid:'123asd12', Topic: 'dog', Displayed: false },
         { Link: 'Cat7', Thumb:'https://www.catster.com/wp-content/uploads/2017/08/A-fluffy-cat-looking-funny-surprised-or-concerned.jpg', link: 'https://www.catster.com/wp-content/uploads/2017/08/A-fluffy-cat-looking-funny-surprised-or-concerned.jpg', Name: 'Cat7', Igid:'123asd12', Topic: 'cat', Displayed: true },
     ]
-    cImage.model.create(data, (err)=>{
+    require('./models/imageModel').Model.create(data, (err)=>{
         res.send()
     })
 
@@ -116,7 +89,7 @@ app.patch('/database', function(req, res){
         {  Name: "Dogs", Tag: "dog", Image: "Cat2"},
         {  Name: "General", Tag: "gen", Image: "Cat3"}
     ]
-    cTopic.model.create(Topics, (err)=>{
+    require('./models/topicModel').Model.create(Topics, (err)=>{
         res.send()
     })
 
@@ -127,24 +100,26 @@ app.patch('/database', function(req, res){
         {  Key: "IG Key", Value:"asdadq2423awdq3r32q" }
 
     ]
-    cConfig.model.create(Conf, (err)=>{
+    require('./models/configModel').Model.create(Conf, (err)=>{
         res.send()
     })
     
 })
 
 const sconfig = express.Router()
-require('./routers/config')(sconfig, cConfig)
+require('./controllers/config')(sconfig)
 app.use('/config', login, sconfig)
 
 const image = express.Router()
-require('./routers/image')(image, cImage)
+require('./controllers/image')(image)
 app.use('/image', image)
 
 const topic = express.Router()
-require('./routers/topic')(topic, cTopic)
+require('./controllers/topic')(topic)
 app.use('/topic', topic)
 
-
+const adminArea = express.Router()
+require('./controllers/adminArea')(adminArea, login)
+app.use('/aa', adminArea)
 
 app.listen(config.server.port, () => { console.log(`Server is running on http://127.0.0.1:${config.server.port}`)})

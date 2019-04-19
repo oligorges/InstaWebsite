@@ -22,7 +22,7 @@
             components: {
             },
             created: function (){
-                axios.get('/login').then(res => {
+                axios.get('/aa/login').then(res => {
                     console.log(res)
                     if(res.status != 200){
                         this.$router.push('/login')
@@ -34,7 +34,7 @@
             },
             methods: {
                 logout: function(){
-                    axios.get('/logout').then(res => {
+                    axios.get('/aa/logout').then(res => {
                         this.$router.push('/')
                     }).catch(()=>{
                         alert('Failed to Logout')

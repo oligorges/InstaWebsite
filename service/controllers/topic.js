@@ -1,7 +1,11 @@
-module.exports = function(app, db) {
+const model = require('../models/topicModel').Model
+const crud = require('../middelware/CRUD')
+const db = new crud()
+
+module.exports = function(app) {
 
     function addDBContext(req, res, next){
-        req.DBContext = db
+        req.DBModel = model
         next()
     }
 

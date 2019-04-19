@@ -35,14 +35,14 @@ export default {
     },
     methods:{
         big (link){
-            this.selected = "https://www.catster.com/wp-content/uploads/2017/08/A-fluffy-cat-looking-funny-surprised-or-concerned.jpg"
+            this.selected = link
             this.hidden = false
         },
         hide (){
             this.hidden = true
         },
         loadData (){
-            axios.get(`/image?Topic=${this.$route.params.tag}&Displayed=true`).then(img => {
+            axios.get(`/image/displayed/${this.$route.params.tag}`).then(img => {
                     this.Images = img.data
                 }).catch(()=>{
                     alert('Cant load Data')

@@ -24,7 +24,7 @@
                     username: this.username,
                     password: encrypt(this.password)
                 }
-                axios.post('/login', data).then(res => {
+                axios.post('/aa/login', data).then(res => {
                     
                     this.$router.push('/aa/config')
                 }).catch(()=>{
