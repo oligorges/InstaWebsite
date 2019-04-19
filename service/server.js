@@ -8,8 +8,6 @@ const bodyParser = require('body-parser')
 const morgan = require('morgan')
 const pass = require('passport')
 const LocalStrategy = require('passport-local').Strategy;
-const fb = require('passport')
-const FacebookStrategy = require('passport-facebook').Strategy
 const session = require('express-session')
 const helmet = require('helmet')
 const https = require('https')
@@ -52,38 +50,11 @@ pass.use(new LocalStrategy(
     }
 ));
 
-fb.use(new FacebookStrategy({
-    clientID: '2280501072191967',
-    clientSecret: 'f2e4a57cb6e0501fe8bcec6f7bf8dff2',
-    callbackURL: `https://localhost:${config.server.port}/auth/facebook/callback`
-  },
-  function(accessToken, refreshToken, profile, done) {
-      console.log('FB:', accessToken, refreshToken, profile)
-    done(err, profile)
-  }
-));
-
-app.get('/auth/facebook', fb.authenticate('facebook', { scope: ['user_photos', 'manage_pages'] }));
-
-app.get('/auth/facebook/callback',(req, res, next) => {
-    fb.authenticate('facebook', (err, user, info) => {
-      if (err) {
-        return next(err);
-      }
-      if (!user) {
-        return res.status(400).send(info);
-      }
-      req.login(user, err => {
-        res.send("Logged in");
-      });
-    })(req, res, next)
-})
-
-
+  
 pass.serializeUser(function(user, cb) {
     console.log('Serial')
     cb(null, user.id);
-  });
+  })
   
 pass.deserializeUser(function(id, cb) {
     console.log('Deserial')
@@ -163,6 +134,10 @@ app.use('/topic', topic)
 const adminArea = express.Router()
 require('./controllers/adminArea')(adminArea, login)
 app.use('/aa', adminArea)
+
+const instagram = express.Router()
+require('./controllers/instagram')(instagram, login)
+app.use('/insta', instagram)
 
 
 http.get('/',  (req, res) => { res.redirect(`https://localhost:${config.server.port}`)})
