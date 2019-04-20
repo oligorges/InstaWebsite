@@ -1,7 +1,7 @@
-
+const login = require('../middelware/Login')
 const pass = require('passport')
 
-module.exports = function(app, login) {
+module.exports = function(app) {
 
     app.get('/login', login, (req, res) => {
         res.sendStatus(200)

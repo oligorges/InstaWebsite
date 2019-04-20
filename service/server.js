@@ -11,6 +11,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const session = require('express-session')
 const helmet = require('helmet')
 const https = require('https')
+const login = require('./middelware/Login')
 require('dotenv').config();
 
 app.use(bodyParser.urlencoded({ extended: true })) // For Formdata
@@ -32,7 +33,6 @@ const options = {
 };
 
 // DB
-console.log(config.server)
 db.connect(`mongodb://${config.server.DBUrl}:${config.server.DBPort}/${config.server.DBTable}`, {useNewUrlParser: true})
 
 // Login 
@@ -60,19 +60,7 @@ pass.deserializeUser(function(id, cb) {
     console.log('Deserial')
     cb(null, {id: id});
 });
-const login = (req, res, next) => {
-    console.log(req.user)
-    if(req.user){
-        req.body = {
-            ...req.body,
-            UserID: req.user.id
-        }
-        next()
-    }else{
-        res.sendStatus(401)
-    }
 
-}
 
 app.use('/', express.static('../vue-ui/dist'))
 
@@ -132,11 +120,11 @@ require('./controllers/topic')(topic)
 app.use('/topic', topic)
 
 const adminArea = express.Router()
-require('./controllers/adminArea')(adminArea, login)
+require('./controllers/adminArea')(adminArea)
 app.use('/aa', adminArea)
 
 const instagram = express.Router()
-require('./controllers/instagram')(instagram, login)
+require('./controllers/instagram')(instagram)
 app.use('/insta', instagram)
 
 

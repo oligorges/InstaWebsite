@@ -35,7 +35,8 @@ module.exports = function(app) {
         res.sendStatus(200)
     })
 
-    app.patch('/:id', db.update, (req, res)=>{
+    app.patch('/:id', (req, res)=>{
+        console.log(req.body)
         res.sendStatus(200)
     })
 }

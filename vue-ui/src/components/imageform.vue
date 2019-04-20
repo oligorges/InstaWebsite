@@ -1,41 +1,49 @@
 <template>
-        <div class="imagefiled">
+        <div :tabindex="index" class="imagefiled">
             
-            <form @blur="update" @focus="save">
+            <form action="post">
                 <img class="tablecol" :src="element.Thumb" height="50px" name="Thumb">
-                <input @blur="console.log('Byby')" class="tablecol" type="text" name="Link" placeholder="Imagelink" :value="element.Link">
-                <input class="tablecol" type="text" name="Name" placeholder="Name" :value="element.Name">
-                <input class="tablecol" type="text" name="Igid" placeholder="Instagramm ID" :value="element.Igid">
-                <select class="tablecol" name="group" :value="element.Topic">
-                    <option v-for="item in Topics" :key="item.Name" :value="item.Name">{{item.Name}}</option>
+                <input @change="changed" class="tablecol" type="text" name="Link" placeholder="Imagelink" v-model="element.Link">
+                <input @change="changed" class="tablecol" type="text" name="Name" placeholder="Name" v-model="element.Name">
+                <input @change="changed" class="tablecol" type="text" name="Igid" placeholder="Instagramm ID" v-model="element.Igid">
+                <select @change="changed" class="tablecol" name="group" v-model="element.Topic">
+                    <option v-for="item in Topics" :key="item.Name" :value="item.Tag" >{{item.Name}}</option>
                 </select>
-                <input class="tablecol" type="checkbox" name="display" :value="element.Displayed" >
+                <input @change="changed" class="tablecol" type="checkbox" name="display" v-model="element.Displayed" >
             </form>
-            
+            <button @click="update" class="tablecol">Save</button>
         </div>
     </template>
     
     <script>
+    import axios from 'axios'
+
     export default {
         name: 'imagebox',
         props: {
             element: Object,
             Topics: [Object],
+            index: Number
         },
         data:   function () {
             return {
-                oldElement: null
+                send: false
             }
         },
 
         methods:{
             update(){
-                if(this.oldElement !== this.element){
-                    alert('update')
+                if(this.send){
+                    alert('update1')
+                    this.send = false
+                    axios.patch('/image', this.element).then(data=>{
+                        console.log(data)
+                        
+                    })
                 }
             },
-            save(){
-                this.oldElement = this.element
+            changed(){
+                this.send = true
             }
         }
     }

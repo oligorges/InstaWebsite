@@ -11,7 +11,7 @@
             <p class="tablecol big">Topic</p>
             <p class="tablecol big">Display</p>
         </div>
-        <div class="tablerow" v-for="element in Images" :key="element.Name"><row  :element="element" :topics="Topics"></row></div>
+        <div class="tablerow" v-for="(element, index) in Images" :key="element.Name"><row  :element="element" :topics="Topics" :index="index"></row></div>
         
     </div>
 </template>

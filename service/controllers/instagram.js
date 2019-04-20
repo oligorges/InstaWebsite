@@ -2,6 +2,7 @@
 const Insta = require('node-instagram').default
 const config = require('../../config')
 const model = require('../models/imageModel').Model
+const login = require('../middelware/Login')
 
 // Instagram v2
 const instagram = new Insta({
@@ -9,7 +10,7 @@ const instagram = new Insta({
     clientSecret: config.server.insta.clientSecret,
     accessToken: config.server.insta.token,
   })
-module.exports = function(app, login) {
+module.exports = function(app) {
 
     const getUserInfo = ()=>{
         instagram
