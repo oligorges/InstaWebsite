@@ -4,39 +4,70 @@ const db = new crud()
 
 module.exports = function(app) {
 
-    function addDBContext(req, res, next){
-        req.DBModel = model
-        next()
-    }
+    
 
-    app.get('/', addDBContext, db.read, (req, res)=>{
-        res.send(req.body)
+    app.get('/',  (req, res)=>{
+        model.find({}, (err, data) => {
+            if (err){
+                res.send({msg:'Can`t find Object'})
+            } else{
+                res.send(data)
+            }
+            
+        })
     })
 
-    app.get('/displayed', addDBContext, db.read, (req, res)=>{
-        let images = req.body.filter(image => image.Displayed);
-        res.send(images)
+    app.get('/displayed', (req, res)=>{
+        model.find({Displayed:true}, (err, data) => {
+            if (err){
+                res.send({msg:'Can`t find Object'})
+            } else{
+                res.send(data)
+            } 
+        })
     })
 
-    app.get('/displayed/:topic', addDBContext, db.read, (req, res)=>{
-        let images = req.body.filter(image => image.Displayed && image.Topic === req.param.topic );
-        res.send(images)
+    app.get('/displayed/:topic', (req, res)=>{
+        model.find({Displayed:true, Topic: req.params.topic}, (err, data) => {
+            if (err){
+                res.send({msg:'Can`t find Object'})
+            } else{
+                res.send(data)
+            }
+            
+        })
+        
     })
 
-    app.get('/:id', addDBContext, db.read, (req, res)=>{
-        res.sendStatus(200)
+    app.get('/:id', (req, res)=>{
+        model.findOne({_id: req.params.id}, (err, data) => {
+            if (err){
+                res.send({msg:'Can`t find Object'})
+            } else{
+                res.send(data)
+            }
+            
+        })
     })
 
-    app.post('/', addDBContext, db.create, (req, res)=>{
-        res.sendStatus(200)
+    app.post('/', (req, res)=>{
+        res.sendStatus(500)
     })
 
-    app.delete('/:id', addDBContext, db.delete, (req, res)=>{
-        res.sendStatus(200)
+    app.delete('/:id', (req, res)=>{
+        res.sendStatus(500)
     })
 
     app.patch('/:id', (req, res)=>{
-        console.log(req.body)
-        res.sendStatus(200)
+        model.updateOne({_id: req.body._id }, req.body, (err, data) => {
+            if (err){
+                res.send({msg:'Can`t update Object'})
+            } else{
+                console.log(`Object updated =>` , data)
+                res.sendStatus(200)
+            }
+            
+        })
+        
     })
 }

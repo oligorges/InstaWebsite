@@ -28,7 +28,7 @@
         },
         methods:{
           loadData(){
-            axios.get('/topic').then(top => {
+            axios.get('/topic/displayed').then(top => {
                     this.Topics = top.data
                 }).catch(()=>{
                     alert('Cant load Topics')

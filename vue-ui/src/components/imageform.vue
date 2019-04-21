@@ -1,5 +1,5 @@
 <template>
-        <div :tabindex="index" class="imagefiled">
+        <div :tabindex="index" class="imagefield">
             
             <form action="post">
                 <img class="tablecol" :src="element.Thumb" height="50px" name="Thumb">
@@ -19,7 +19,7 @@
     import axios from 'axios'
 
     export default {
-        name: 'imagebox',
+        name: 'imageform',
         props: {
             element: Object,
             Topics: [Object],
@@ -34,9 +34,8 @@
         methods:{
             update(){
                 if(this.send){
-                    alert('update1')
                     this.send = false
-                    axios.patch('/image', this.element).then(data=>{
+                    axios.patch('/image/'+this.element._id, this.element).then(data=>{
                         console.log(data)
                         
                     })

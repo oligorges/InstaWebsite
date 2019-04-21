@@ -1,7 +1,8 @@
 
 const Insta = require('node-instagram').default
 const config = require('../../config')
-const model = require('../models/imageModel').Model
+const imgModel = require('../models/imageModel').Model
+const topicModel = require('../models/imageModel').Model
 const login = require('../middelware/Login')
 
 // Instagram v2
@@ -31,14 +32,27 @@ module.exports = function(app) {
         .then(result => {
             console.log(result)
             result.data.forEach(element => {
-                model.create({ 
+                const tag = element.tags.filter(tag => tag.match('_.*_'))[0]
+                imgModel.create({ 
                                 Link: element.images.standard_resolution.url, 
-                                Thumb: element.images.thumbnail.url,
+                                Thumb: element.images.low_resolution.url,
                                 Name: "",
                                 Igid: element.id,
-                                Topic: "cat",
+                                Topic: tag,
                                 Displayed: false
                             })
+                topicModel.findOne({Tag: tag}, (err, data) => {
+                    if (err){
+                        // Create new entry
+                        topicModel.create({
+                            Name: tag,
+                            Tag: tag,
+                            Image: '',
+                            Displayed: false
+                        })
+                    } 
+                })
+                
             });
         })
         .catch(err => {

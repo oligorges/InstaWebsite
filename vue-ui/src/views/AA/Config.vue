@@ -6,6 +6,7 @@
             <p class="tablecol big">Value</p>
         </div>
         <div class="tablerow" v-for="element in Configuration" :key="element.key"><row  :setting="element"></row></div>
+        
         <button @click="getFB">Gen Token</button>
     </div>
 </template>

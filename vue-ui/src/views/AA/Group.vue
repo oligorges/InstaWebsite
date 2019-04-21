@@ -1,9 +1,12 @@
 <template>
     <div >
         <h1>Topic AA</h1>
+        <button @click="add">Add Topic</button>
         <div class="tablerow">
+            <p class="tablecol">Link</p>
             <p class="tablecol">Name</p>
             <p class="tablecol">Tag</p>
+            <p class="tablecol">Displayed</p>
         </div>
         <div class="tablerow" v-for="element in Topics" :key="element.Name"><row  :element="element"></row></div>
     </div>
@@ -32,6 +35,14 @@
                     this.Topics = top.data
                 }).catch(()=>{
                     alert('Cant load Topics')
+                })
+            },
+            add(){
+                this.Topics.push({
+                    Name: '',
+                    Tag: '',
+                    Image: '',
+                    Displayed: false
                 })
             }
         }

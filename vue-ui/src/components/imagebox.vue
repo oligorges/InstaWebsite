@@ -1,6 +1,6 @@
 <template>
     <div class="imagebox">
-            <img class="image" alt="Not Found" height="300px" src="https://www.catster.com/wp-content/uploads/2017/08/A-fluffy-cat-looking-funny-surprised-or-concerned.jpg">
+            <img class="image" alt="Not Found" height="300px" :src="img">
             <p class="overlay">{{ text }}</p>
     </div>
 </template>

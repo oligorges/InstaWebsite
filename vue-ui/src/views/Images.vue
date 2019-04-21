@@ -1,10 +1,10 @@
 <template>
     <div id="topic">
         <button @click="back">Back</button>
-        <h1>{{ $route.params.tag }}</h1>
-        <div v-for="item in Images" :key="item.text">
-            <span v-on:blur="focus" v-on:click="big(item.link)">
-                <imagebox :text="item.text" :img="item.thumb" />
+        <h1>{{ Name }}</h1>
+        <div v-for="item in Images" :key="item.Text">
+            <span v-on:blur="focus" v-on:click="big(item.Link)">
+                <imagebox :text="item.Text" :img="item.Thumb" />
             </span>
         </div>
         <div @click="hide"><overlay :image="selected" :hidden="hidden" ></overlay></div>
@@ -27,7 +27,8 @@ export default {
         return {
             selected: "",
             hidden: true,
-            Images: []
+            Images: [],
+            Name: ''
         }
     },
     created: function(){
@@ -42,6 +43,11 @@ export default {
             this.hidden = true
         },
         loadData (){
+            axios.get(`/topic/${this.$route.params.tag}`).then(topic => {
+                    this.Name = topic.data.Name
+                }).catch(()=>{
+                    alert('Cant load Data')
+                })
             axios.get(`/image/displayed/${this.$route.params.tag}`).then(img => {
                     this.Images = img.data
                 }).catch(()=>{
