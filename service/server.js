@@ -11,7 +11,6 @@ const LocalStrategy = require('passport-local').Strategy;
 const session = require('express-session')
 const helmet = require('helmet')
 const https = require('https')
-const login = require('./middelware/Login')
 require('dotenv').config();
 
 app.use(bodyParser.urlencoded({ extended: true })) // For Formdata
@@ -95,11 +94,14 @@ app.patch('/database', function(req, res){
     })
 
     const Conf = [
-        {  Key: "Color", Value:"White"},
-        {  Key: "Username", Value:"Oliver"},
-        {  Key: "Password", Value:""},
-        {  Key: "IG Key", Value:"asdadq2423awdq3r32q" }
-
+        {  Key: "Color", Value:"White", Public: true},
+        {  Key: "Username", Value:"Oliver", Public: false},
+        {  Key: "Password", Value:"", Public: false},
+        {  Key: "IG Key", Value:"asdadq2423awdq3r32q", Public: false},
+        {  Key: "IG Link", Value:"https://www.instagram.com/oli.gorges/", Public: true},
+        {  Key: "Logo", Value:"/public/logo.png", Public: true },
+        {  Key: "Title Image", Value:"https://i.kinja-img.com/gawker-media/image/upload/s--kHrQ8nr7--/c_scale,f_auto,fl_progressive,q_80,w_800/18huxz4bvnfjbjpg.jpg", Public: true },
+        {  Key: "Intro", Value:"Welcome to my Portfolio", Public: true },
     ]
     require('./models/configModel').Model.create(Conf, (err)=>{
         res.send()
@@ -109,7 +111,7 @@ app.patch('/database', function(req, res){
 
 const sconfig = express.Router()
 require('./controllers/config')(sconfig)
-app.use('/config', login, sconfig)
+app.use('/config', sconfig)
 
 const image = express.Router()
 require('./controllers/image')(image)
