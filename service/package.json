@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Dragonil/Iot-Manager.git"
+    "url": "git+https://github.com/Dragonil/InstaWebsite.git"
   },
   "keywords": [
     "server",
@@ -22,9 +22,9 @@
   "author": "Oliver Gorges",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Dragonil/Iot-Manager/issues"
+    "url": "https://github.com/Dragonil/InstaWebsite/issues"
   },
-  "homepage": "https://github.com/Dragonil/Iot-Manager#readme",
+  "homepage": "https://github.com/Dragonil/InstaWebsite#readme",
   "dependencies": {
     "body-parser": "^1.18.3",
     "crypto": "^1.0.1",

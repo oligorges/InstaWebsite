@@ -1,0 +1,26 @@
+{
+    "name": "instaportfolio",
+    "version": "1.0.0",
+    "description": "Service that creates a portfolio website out of selected instagramm images",
+    "main": "server.js",
+    "scripts": {
+        "init": "cd vue-ui && npm i && cd ../service && npm i",
+        "start": "npm run build && cd service && node server.js ",
+        "ui": "cd vue-ui && npm run serve",
+        "server": "cd service && npm start",
+        "build": "cd vue-ui && npm run build",
+        "genCerts": "cd service && openssl genrsa -out ssl-key.pem 4096 && openssl req -new -key ssl-key.pem -out certrequest.csr && openssl x509 -req -in certrequest.csr -signkey ssl-key.pem -out ssl-cert.pem"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Dragonil/InstaWebsite.git"
+    },
+    "keywords": [
+        "server",
+        "instagram",
+        "portfolio",
+        "sssf"
+    ],
+    "author": "Oliver Gorges",
+    "license": "ISC"
+}

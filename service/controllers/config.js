@@ -2,7 +2,7 @@
 const model = require('../models/configModel').Model
 const crypto = require('crypto');
 const sharp = require('sharp')
-const multer= require('multer')
+const multer= require('multer')({limits: { fileSize:1000*1024 }})
 const login = require('../middelware/Login')
 
 module.exports = function(app) {
