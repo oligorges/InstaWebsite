@@ -4,6 +4,7 @@ const http = express()
 const fs = require('fs')
 const db = require('mongoose')
 const config = require('../config')
+const configModel = require('./models/configModel').Model
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
 const pass = require('passport')
@@ -11,6 +12,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const session = require('express-session')
 const helmet = require('helmet')
 const https = require('https')
+const hashPassword = require('./middelware/HashPw')
 require('dotenv').config();
 
 app.use(bodyParser.urlencoded({ extended: true })) // For Formdata
@@ -37,14 +39,23 @@ db.connect(`mongodb://${config.server.DBUrl}:${config.server.DBPort}/${config.se
 // Login 
 pass.use(new LocalStrategy(
     (username, password, done) => {
-       
-        if (username == process.env.username1 && password == process.env.password1) {
-            return done(null, {id: process.env.userid1, name: process.env.username1}); // returned object usally contains something to identify the user
-        }
-        if (username == process.env.username2 && password == process.env.password2) {
-            return done(null, {id: process.env.userid2, name: process.env.username2}); // returned object usally contains something to identify the user
-        }
-        done(null, false, {message: 'Incorrect credentials.'});
+        console.log('Password ', password)
+        configModel.findOne({Key: 'Username'}).then((data)=>{
+            console.log('User', data.Value)
+            if(data.Value === username){
+                return configModel.findOne({Key: 'Password'})
+            }
+            throw 'Wrong Username'
+        }).then((data)=>{
+            console.log('Password', data.Value)
+            if(data.Value === hashPassword(password)){
+                done(null, {id: 123123})
+            }
+            throw 'Wrong Password'
+        }).catch(err => {
+            console.log('Error', err)
+            done(null, false, {message: err})
+        })
         return;
     }
 ));
@@ -85,23 +96,23 @@ app.patch('/database', function(req, res){
     })
 
     const Topics = [
-        {  Name: "Cats", Tag: "cat", Image: "Cat1"},
-        {  Name: "Dogs", Tag: "dog", Image: "Cat2"},
-        {  Name: "General", Tag: "gen", Image: "Cat3"}
+        {  Name: 'Cats', Tag: 'cat', Image: 'Cat1'},
+        {  Name: 'Dogs', Tag: 'dog', Image: 'Cat2'},
+        {  Name: 'General', Tag: 'gen', Image: 'Cat3'}
     ]
     require('./models/topicModel').Model.create(Topics, (err)=>{
         res.send()
     })
 
     const Conf = [
-        {  Key: "Color", Value:"White", Public: true},
-        {  Key: "Username", Value:"Oliver", Public: false},
-        {  Key: "Password", Value:"", Public: false},
-        {  Key: "IG Key", Value:"asdadq2423awdq3r32q", Public: false},
-        {  Key: "IG Link", Value:"https://www.instagram.com/oli.gorges/", Public: true},
-        {  Key: "Logo", Value:"/public/logo.png", Public: true },
-        {  Key: "Title Image", Value:"https://i.kinja-img.com/gawker-media/image/upload/s--kHrQ8nr7--/c_scale,f_auto,fl_progressive,q_80,w_800/18huxz4bvnfjbjpg.jpg", Public: true },
-        {  Key: "Intro", Value:"Welcome to my Portfolio", Public: true },
+        {  Key: 'Color', Value:'White', Public: true},
+        {  Key: 'Username', Value:'Oliver', Public: false},
+        {  Key: 'Password', Value:'', Public: false},
+        {  Key: 'IG Key', Value:'asdadq2423awdq3r32q', Public: false},
+        {  Key: 'IG Link', Value:'https://www.instagram.com/oli.gorges/', Public: true},
+        {  Key: 'Logo', Value:'/public/logo.png', Public: true },
+        {  Key: 'Title Image', Value:'https://i.kinja-img.com/gawker-media/image/upload/s--kHrQ8nr7--/c_scale,f_auto,fl_progressive,q_80,w_800/18huxz4bvnfjbjpg.jpg', Public: true },
+        {  Key: 'Intro', Value:'Welcome to my Portfolio', Public: true },
     ]
     require('./models/configModel').Model.create(Conf, (err)=>{
         res.send()

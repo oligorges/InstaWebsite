@@ -18,11 +18,14 @@
         name: 'login',
         components: {
         },
+        props:{ 
+            config: Array
+        },
         methods: {
             login: function (){
                 const data = {
                     username: this.username,
-                    password: encrypt(this.password)
+                    password: this.password //encrypt(this.password)
                 }
                 axios.post('/aa/login', data).then(res => {
                     
