@@ -1,8 +1,6 @@
 <template>
   <div class="home">
-      <img alt="Vue logo" id="index" src="https://i.kinja-img.com/gawker-media/image/upload/s--kHrQ8nr7--/c_scale,f_auto,fl_progressive,q_80,w_800/18huxz4bvnfjbjpg.jpg" />
-      
-      
+      <img alt="Vue logo" id="index" :src="getValue('TitleImage')" />
   </div>
 </template>
 
@@ -11,6 +9,15 @@
 export default {
   name: 'frontpage',
   components: {
+  },
+  props:{ 
+      config: Array
+  },
+  methods:{
+    getValue(key){
+      console.log(key, this.config)
+      return (this.config.find((e) => {return e.Key === key})).Value
+    }
   }
 }
 </script>

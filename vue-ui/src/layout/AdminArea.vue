@@ -8,7 +8,7 @@
             <button id="logout" @click="logout">Logout</button>
         </div>
         <div id="settings">
-            <router-view></router-view>
+            <router-view :config="config"></router-view>
         </div>
 
     </div>
@@ -20,6 +20,9 @@
         export default {
             name: 'adminarea',
             components: {
+            },
+            props:{ 
+                config: Array
             },
             created: function (){
                 axios.get('/aa/login').then(res => {

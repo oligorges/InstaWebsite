@@ -1,25 +1,39 @@
 <template>
         <div>
             
-            <form>
-                <input name="_id" :value="setting._id" hidden>
-                <input class="tablecol" type="text" name="key" placeholder="Key" :value="setting.Key">
-                <input class="tablecol" type="text" name="value" placeholder="Value" :value="setting.Value">
+            <form action="post">
+                <label class="tablecol" for="value">{{setting.Key}}</label>
+                <input class="tablecol" @change="changed" type="text" name="value" placeholder="Value" v-model="setting.Value">
             </form>
-            
+            <button @click="update" class="tablecol">Save</button>
         </div>
     </template>
     
     <script>
+    import axios from 'axios'
     export default {
         name: 'configform',
         props: {
-            setting: Object
-    
+            setting: Object,
+            config: Array
         },
-        methods:{
-            update: ()=>{
+        data:   function () {
+            return {
+                send: false
+            }
+        },
 
+        methods:{
+            update(){
+                if(this.send){
+                    this.send = false
+                    axios.patch('/config/'+this.setting.Key, {Value: this.setting.Value}).then(data=>{
+                        console.log(data)
+                    })
+                }
+            },
+            changed(){
+                this.send = true
             }
         }
     }

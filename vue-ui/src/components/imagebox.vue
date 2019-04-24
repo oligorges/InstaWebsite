@@ -1,7 +1,12 @@
 <template>
     <div class="imagebox">
             <img class="image" alt="Not Found" height="300px" :src="img">
-            <p class="overlay">{{ text }}</p>
+            <div v-if="group" id="group">
+                <p class="overlay">{{ text }}</p>
+            </div>
+            <div v-else id="img">
+                <p class="overlay">{{ text }}</p>
+            </div>
     </div>
 </template>
 
@@ -12,7 +17,8 @@ export default {
         img: String,
         tag: String,
         text: String,
-
+        config: Array,
+        group: Boolean
     }
 }
 </script>
@@ -34,22 +40,33 @@ export default {
 }
 .overlay{
     z-index: 10;
-    height: 55%; 
-    width: 100%;
     position: absolute;
     margin: 0px;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
-    opacity: 0;
     transition: .3s ease;
-    background-color:black;
-    color: white;
     padding-top: 30%;
     font-size: larger;
 }
-.imagebox:hover .overlay {
+
+#img .overlay {
+    opacity: 0.3;
+    background-color:white;
+    color: black;
+}
+
+#group .overlay {
+    opacity: 0;
+    background-color:black;
+    color: white;
+}
+
+.imagebox:hover #img .overlay {
+  opacity: 0;
+}
+.imagebox:hover #group .overlay {
   opacity: 0.7;
 }
 h3 {

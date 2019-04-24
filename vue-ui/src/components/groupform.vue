@@ -18,7 +18,8 @@
         export default {
             name: 'groupform',
             props: {
-                element: Object
+                element: Object,
+                config: Array
             },
             data:   function () {
                 return {

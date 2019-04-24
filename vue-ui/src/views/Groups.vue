@@ -2,7 +2,7 @@
         <div>
           <div v-for="item in Topics" :key="item.Name">
             <router-link :to="getPath(item.Tag)">
-              <imagebox :text="item.Name" :img="item.Image" />
+              <imagebox :config="config" :text="item.Name" :img="item.Image" :group="true" />
             </router-link>
           </div>  
       
@@ -17,6 +17,9 @@
         name: 'groups',
         components: {
           imagebox
+        },
+        props:{ 
+            config: Array
         },
         data:   function () {
         return {

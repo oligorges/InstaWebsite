@@ -5,7 +5,7 @@
             <p class="tablecol big">Key</p>
             <p class="tablecol big">Value</p>
         </div>
-        <div class="tablerow" v-for="element in Configuration" :key="element.key"><row  :setting="element"></row></div>
+        <div class="tablerow" v-for="element in Configuration" :key="element.key"><row :config="config" :setting="element"></row></div>
         
         <button @click="getFB">Gen Token</button>
     </div>
@@ -19,6 +19,9 @@
         name: 'configaa',
         components: {
             row
+        },
+        props:{ 
+            config: Array
         },
         data:   function () {
             return {

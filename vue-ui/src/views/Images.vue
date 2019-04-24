@@ -4,10 +4,10 @@
         <h1>{{ Name }}</h1>
         <div v-for="item in Images" :key="item.Text">
             <span v-on:blur="focus" v-on:click="big(item.Link)">
-                <imagebox :text="item.Text" :img="item.Thumb" />
+                <imagebox :config="config" :text="item.Text" :img="item.Thumb" />
             </span>
         </div>
-        <div @click="hide"><overlay :image="selected" :hidden="hidden" ></overlay></div>
+        <div @click="hide"><overlay :config="config" :image="selected" :hidden="hidden" ></overlay></div>
     </div>
     
 </template>
@@ -22,6 +22,9 @@ export default {
     components: {
         imagebox,
         overlay
+    },
+    props:{ 
+        config: Array
     },
     data:   function () {
         return {

@@ -9,7 +9,8 @@
         name: 'overlay',
         props: {
             image: String,
-            hidden: Boolean
+            hidden: Boolean,
+            config: Array
     
         }
     }

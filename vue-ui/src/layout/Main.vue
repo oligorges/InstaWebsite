@@ -1,8 +1,8 @@
 <template>
     <div>
-        <div @click="scroll" id="home"><front ></front></div>
+        <div @click="scroll" id="home"><front :config="config"></front></div>
         <div id="content">
-            <topics></topics>
+            <topics :config="config"></topics>
         </div>
     </div>
 </template>
@@ -16,6 +16,9 @@
         components: {
             Front,
             Topics
+        },
+        props:{ 
+            config: Array
         },
         methods: {
             scroll: ()=>{

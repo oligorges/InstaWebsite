@@ -23,7 +23,8 @@
         props: {
             element: Object,
             Topics: [Object],
-            index: Number
+            index: Number,
+            config: Array
         },
         data:   function () {
             return {

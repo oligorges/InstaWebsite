@@ -22,6 +22,9 @@
 
     export default {
         name: 'imageaa',
+        props:{ 
+            config: Array
+        },
         data:   function () {
             return {
                 Images: [],

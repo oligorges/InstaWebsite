@@ -8,7 +8,7 @@
             <p class="tablecol">Tag</p>
             <p class="tablecol">Displayed</p>
         </div>
-        <div class="tablerow" v-for="element in Topics" :key="element.Name"><row  :element="element"></row></div>
+        <div class="tablerow" v-for="element in Topics" :key="element.Name"><row :config="config" :element="element"></row></div>
     </div>
 </template>
 
@@ -20,6 +20,9 @@
         name: 'groupaa',
         components: {
             row
+        },
+        props:{ 
+            config: Array
         },
         data:   function () {
             return {
