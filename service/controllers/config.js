@@ -4,6 +4,7 @@ const sharp = require('sharp')
 const multer= require('multer')({limits: { fileSize:1000*1024 }})
 const login = require('../middelware/Login')
 const hashPassword = require('../middelware/HashPw')
+const defaultConf = require('../../config').server
 
 module.exports = function(app) {
 
@@ -19,13 +20,13 @@ module.exports = function(app) {
     })
 
     app.get('/reset', login,  (req, res) => {
-        const defaultConf = require('../../config').server.settings
+       
         model.collection.drop().then(()=>{
             console.log('deleted Table')
            return model.createCollection()
         }).then(() => {
             console.log('crated Table')
-            return model.create(defaultConf)
+            return model.create(defaultConf.settings)
         }).then(()=>{
             console.log('Init new Settings')
             res.sendStatus(200)
@@ -65,8 +66,11 @@ module.exports = function(app) {
     
 
     app.post('/logo', login, multer.single('image'), (req, res)=>{
-        sharp(req.file).resize({ height: 500 }).toFile('./public/logo.png', (err, info) => { 
+        sharp(req.file.buffer).resize({ height: 500 }).toFile(defaultConf.DistPath+'logo.png', (err, info) => { 
             console.log(err, info)
+            if(err){ res.status(400) }
+            else{ res.send({info:info}) }
+            
          })
     })
     

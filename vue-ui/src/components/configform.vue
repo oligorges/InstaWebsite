@@ -2,8 +2,9 @@
         <div>
             
             <form action="post">
+                <span class="tablecol"> </span>
                 <label class="tablecol" for="value">{{setting.Key}}</label>
-                <input class="tablecol" @change="changed" type="text" name="value" placeholder="Value" v-model="setting.Value">
+                <input class="tablecol-2" @change="changed" type="text" name="value" placeholder="Value" v-model="setting.Value">
             </form>
             <button @click="update" class="tablecol">Save</button>
         </div>
