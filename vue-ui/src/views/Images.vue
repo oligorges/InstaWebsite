@@ -1,13 +1,15 @@
 <template>
-    <div id="topic">
+    <div >
         
             <span class="back" @click="back"><</span>
         <h1>{{ Name }}</h1>
-        <div v-for="item in Images" :key="item.Text">
-            <span v-on:blur="focus" v-on:click="big(item.Link)">
-                <imagebox :config="config" :text="item.Text" :img="item.Thumb" />
-            </span>
-        </div>
+        <div id="topic">
+            <div v-for="item in Images" :key="item.Text">
+                <span v-on:blur="focus" v-on:click="big(item.Link)">
+                    <imagebox :config="config" :text="item.Title" :img="item.Thumb" />
+                </span>
+            </div>
+        </div>  
         <div @click="hide"><overlay :config="config" :image="selected" :hidden="hidden" ></overlay></div>
     </div>
     
@@ -48,7 +50,7 @@ export default {
         },
         loadData (){
             axios.get(`/topic/${this.$route.params.tag}`).then(topic => {
-                    this.Name = topic.data.Name
+                    this.Name = topic.data.Title
                 }).catch(()=>{
                     alert('Cant load Data')
                 })

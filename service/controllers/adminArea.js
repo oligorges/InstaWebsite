@@ -13,10 +13,10 @@ module.exports = function(app) {
           return next(err);
         }
         if (!user) {
-          return res.status(400).send(info);
+          return res.status(400).send({info: info});
         }
         req.login(user, err => {
-          res.send("Logged in");
+          res.send({msg: "Logged in"});
         });
       })(req, res, next)
     })

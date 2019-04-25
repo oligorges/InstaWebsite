@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="conf">
         <h1>Config</h1>
         <div class="tablerow">
             <span class="tablecol"> </span>
@@ -85,7 +85,7 @@
                 axios.post('/config/logo', formData ,{ headers: {'Content-Type': 'multipart/form-data' }})
                 .then(function (response) {
                     // update view
-                    axios.patch('/config/Logo', {Value: '/logo.png'}).then(data=>{
+                    axios.patch('/config/Logo', {Value: 'assets/logo.png'}).then(data=>{
                         console.log(data)
                     })
                 })
@@ -98,5 +98,8 @@
     }
 </script>
 <style>
+    #conf{
+        display: inline-block;
+    }
 </style>
     

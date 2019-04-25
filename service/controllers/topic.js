@@ -17,7 +17,6 @@ module.exports = function(app) {
     })
 
     app.get('/displayed', (req, res)=>{
-        console.log('Hey')
         model.find({Displayed:true}, (err, data) => {
             console.log(err, data)
             if (err){

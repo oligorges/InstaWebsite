@@ -2,12 +2,12 @@
         <div :tabindex="index" class="imagefield">
             
             <form action="post">
-                <img class="tablecol" :src="element.Thumb" height="50px" name="Thumb">
+                <div class="tablecol"><img  :src="element.Thumb" height="50px" name="Thumb"></div>
                 <input @change="changed" class="tablecol" type="text" name="Link" placeholder="Imagelink" v-model="element.Link">
-                <input @change="changed" class="tablecol" type="text" name="Name" placeholder="Name" v-model="element.Name">
+                <input @change="changed" class="tablecol" type="text" name="Name" placeholder="Name" v-model="element.Title">
                 <input @change="changed" class="tablecol" type="text" name="Igid" placeholder="Instagramm ID" v-model="element.Igid">
                 <select @change="changed" class="tablecol" name="group" v-model="element.Topic">
-                    <option v-for="item in Topics" :key="item.Name" :value="item.Tag" >{{item.Name}}</option>
+                    <option v-for="item in Topics" :key="item.Title" :value="item.Tag" >{{item.Title}}</option>
                 </select>
                 <input @change="changed" class="tablecol" type="checkbox" name="display" v-model="element.Displayed" >
             </form>

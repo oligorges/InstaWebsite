@@ -2,9 +2,9 @@
         <div class="">
             
             <form action="post">
-                <img class="tablecol" :src="element.Image" height="50px">
+                <div class="tablecol"><img :src="element.Image" height="50px"></div>
                 <input class="tablecol" @change="changed" type="text" name="image" placeholder="Preview Image" v-model="element.Image">
-                <input class="tablecol" @change="changed" type="text" placeholder="Name" v-model="element.Name"/>
+                <input class="tablecol" @change="changed" type="text" placeholder="Name" v-model="element.Title"/>
                 <input class="tablecol" @change="changed" type="text" name="tag" placeholder="Tag" v-model="element.Tag">
                 <input class="tablecol" @change="changed" type="checkbox" name="display" v-model="element.Displayed" >
             </form>

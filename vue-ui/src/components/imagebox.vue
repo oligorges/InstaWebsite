@@ -36,7 +36,7 @@ export default {
 .image{
     z-index: 1;
     position: relative;
-    max-width: calc(100vw - 10px);
+    max-width: 90vw;
 }
 .overlay{
     z-index: 10;
@@ -47,7 +47,7 @@ export default {
     left: 0;
     right: 0;
     transition: .3s ease;
-    padding-top: 30%;
+    padding-top: 45%;
     font-size: larger;
 }
 

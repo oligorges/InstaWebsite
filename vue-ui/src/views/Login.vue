@@ -1,12 +1,15 @@
 <template>
-    <div class="login">
-       <form action="post">
-            <label for="username">Username:</label><br />
-            <input type="text" name="username" placeholder="Username..." v-model="username"/><br />
-            <label for="password">Password:</label><br />
-            <input type="password" name="password" placeholder="Password..." v-model="password" /><br />
-            <input type="button" value="Submit" v-on:click="login()">
-       </form>
+    <div class="login" :style="getColor()">
+        <div class="form">
+            <h1>Login</h1>
+            <form action="post">
+                <label for="username">Username:</label><br />
+                <input type="text" name="username" placeholder="Username..." v-model="username"/><br />
+                <label for="password">Password:</label><br />
+                <input type="password" name="password" placeholder="Password..." v-model="password" /><br />
+                <input type="button" value="Submit" v-on:click="login()">
+            </form>
+        </div>
     </div>
 </template>
 
@@ -22,7 +25,7 @@
             config: Array
         },
         methods: {
-            login: function (){
+            login(){
                 const data = {
                     username: this.username,
                     password: this.password //encrypt(this.password)
@@ -33,13 +36,28 @@
                 }).catch(()=>{
                     this.$router.push('/')
                 })
+            },
+            getColor(){
+                return 'background-color:'+(this.config.find((e) => {return e.Key === "Color"})).Value
             }
         }
     }
 </script>
 
 <style scoped>
-
+.login{
+    background-color: lightblue ;
+    width: 100vw;
+    height: 100vh;
+}
+.form{
+    padding: 20px;
+    background: white;
+    border: solid gray 1px;
+    border-radius: 7px; 
+    display: inline-block;
+    margin-top: 15vh;
+}
 form{
     align-items: flex-start;
 }

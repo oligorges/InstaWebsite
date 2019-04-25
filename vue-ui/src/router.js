@@ -48,7 +48,7 @@ export default new Router({
           component: ImageAA
         },
         {
-          path: 'group',
+          path: 'topic',
           component: GroupAA
         }
       ]

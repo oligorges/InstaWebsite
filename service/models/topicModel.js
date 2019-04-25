@@ -1,7 +1,7 @@
 const db = require('mongoose')
 
 const Schema = {
-    Name: String,
+    Title: String,
     Tag:{
         type: String,
         unique: true

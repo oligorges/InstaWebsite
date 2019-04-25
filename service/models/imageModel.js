@@ -3,7 +3,7 @@ const db = require('mongoose')
 const Schema = {
     Link: String,
     Thumb: String,
-    Name: String,
+    Title: String,
     Igid:{
         type: String,
         unique: true

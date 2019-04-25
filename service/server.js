@@ -73,14 +73,15 @@ pass.deserializeUser(function(id, cb) {
 
 
 app.use('/', express.static('../vue-ui/dist'))
+app.use('/assets', express.static('./public'))
 
-
+// Endpoint for testdata
 app.delete('/database', function(req, res){
     cImage.model.collection.drop();
     cTopic.model.collection.drop()
     res.send()
 })
-
+// Endpoint for testdata
 app.patch('/database', function(req, res){
     const data  = [
         { Link: 'Cat1', Thumb:'https://www.catster.com/wp-content/uploads/2017/08/A-fluffy-cat-looking-funny-surprised-or-concerned.jpg', link: 'https://www.catster.com/wp-content/uploads/2017/08/A-fluffy-cat-looking-funny-surprised-or-concerned.jpg', Name: 'Cat1', Igid:'123asd12', Topic: 'dog', Displayed: true },
@@ -92,7 +93,7 @@ app.patch('/database', function(req, res){
         { Link: 'Cat7', Thumb:'https://www.catster.com/wp-content/uploads/2017/08/A-fluffy-cat-looking-funny-surprised-or-concerned.jpg', link: 'https://www.catster.com/wp-content/uploads/2017/08/A-fluffy-cat-looking-funny-surprised-or-concerned.jpg', Name: 'Cat7', Igid:'123asd12', Topic: 'cat', Displayed: true },
     ]
     require('./models/imageModel').Model.create(data, (err)=>{
-        res.send()
+        
     })
 
     const Topics = [
@@ -101,7 +102,7 @@ app.patch('/database', function(req, res){
         {  Name: 'General', Tag: 'gen', Image: 'Cat3'}
     ]
     require('./models/topicModel').Model.create(Topics, (err)=>{
-        res.send()
+        
     })
 
     const Conf = [
@@ -115,11 +116,12 @@ app.patch('/database', function(req, res){
         {  Key: 'Intro', Value:'Welcome to my Portfolio', Public: true },
     ]
     require('./models/configModel').Model.create(Conf, (err)=>{
-        res.send()
+        
     })
-    
+    res.send()
 })
 
+// Routers
 const sconfig = express.Router()
 require('./controllers/config')(sconfig)
 app.use('/config', sconfig)
@@ -140,7 +142,7 @@ const instagram = express.Router()
 require('./controllers/instagram')(instagram)
 app.use('/insta', instagram)
 
-
+// HTTPS Redirect
 http.get('/',  (req, res) => { res.redirect(`https://localhost:${config.server.port}`)})
 
 http.listen(8080)

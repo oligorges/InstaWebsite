@@ -3,7 +3,9 @@
       <img alt="Vue logo" id="index" :src="getValue('TitleImage')" />
       <div id="welcome">
         <img id="logo" :src="getValue('Logo')"/>
-        <p id="Intro">{{getValue('Intro')}}</p>
+        <p id="intro">
+          <span>{{getValue('Intro')}}</span>
+        </p>
       </div>
   </div>
 </template>
@@ -46,10 +48,19 @@ export default {
   top: 0px;
   left: 0px;
   padding: 15vh 15vw 15vh 15vw;
-  font-size: 2rem;
-  color: aqua;
+  
   position: absolute;
   align-content: center;
+}
+
+#logo{
+  max-width: 25vw;
+  mix-blend-mode: darken;
+}
+#intro{
+  font-size: 2rem;
+  color: white;
+  mix-blend-mode: difference;
 }
 
 </style>

@@ -9,7 +9,7 @@ const login = require('../middelware/Login')
 const instagram = new Insta({
     clientId: config.server.insta.clientId,
     clientSecret: config.server.insta.clientSecret,
-    accessToken: config.server.insta.token,
+    accessToken: config.server.insta.token
   })
 module.exports = function(app) {
 
@@ -36,28 +36,28 @@ module.exports = function(app) {
                 imgModel.create({ 
                                 Link: element.images.standard_resolution.url, 
                                 Thumb: element.images.low_resolution.url,
-                                Name: "",
+                                Title: "",
                                 Igid: element.id,
                                 Topic: tag,
                                 Displayed: false
-                            })
-                topicModel.findOne({Tag: tag}, (err, data) => {
-                    if (err){
-                        // Create new entry
-                        topicModel.create({
-                            Name: tag,
-                            Tag: tag,
-                            Image: '',
-                            Displayed: false
-                        })
-                    } 
+                }).catch({
+
                 })
+                // Create new entry
+                topicModel.create({
+                    Title: tag,
+                    Tag: tag,
+                    Image: '',
+                    Displayed: false
+                }).catch({
+                    
+                })
+                    
                 
             });
         })
         .catch(err => {
             // An error occured
-            console.log(err)
             return err
         });
 
@@ -76,14 +76,14 @@ module.exports = function(app) {
 
     app.get('/auth/callback', async (req, res) => {
         try {
-        // The code from the request, here req.query.code for express
-        const code = req.query.code;
-        const data = await instagram.authorizeUser(code, `https://localhost:${config.server.port}/insta/auth/data`);
-        // data.access_token contain the user access_token
-        console.log(data)
-        res.json(data);
+            // The code from the request, here req.query.code for express
+            const code = req.query.code;
+            const data = await instagram.authorizeUser(code, `https://localhost:${config.server.port}/insta/auth/data`);
+            // data.access_token contain the user access_token
+            console.log(data)
+            res.json(data);
         } catch (err) {
-        res.json(err);
+            res.json(err);
         }
     })
 }
