@@ -1,7 +1,7 @@
 <template>
         <div id="footer">
 
-           <a :href="getValue('IGLink')">
+           <a target="_blank" rel="noopener noreferrer" :href="getValue('IGLink')">
                <span>My Instagram</span>
             </a> 
            

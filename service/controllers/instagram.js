@@ -2,7 +2,7 @@
 const Insta = require('node-instagram').default
 const config = require('../../config')
 const imgModel = require('../models/imageModel').Model
-const topicModel = require('../models/imageModel').Model
+const topicModel = require('../models/topicModel').Model
 const login = require('../middelware/Login')
 
 // Instagram v2
@@ -32,26 +32,44 @@ module.exports = function(app) {
         .then(result => {
             console.log(result)
             result.data.forEach(element => {
-                const tag = element.tags.filter(tag => tag.match('_.*_'))[0]
-                imgModel.create({ 
-                                Link: element.images.standard_resolution.url, 
-                                Thumb: element.images.low_resolution.url,
-                                Title: "",
-                                Igid: element.id,
-                                Topic: tag,
-                                Displayed: false
-                }).catch({
-
-                })
+                const tag = element.tags.find(tag => tag.match('_.*_'))
+                
+                if(element.carousel_media){
+                    element.carousel_media.forEach((subelement, index) => {
+                        imgModel.create({ 
+                            Link: subelement.images.standard_resolution.url, 
+                            Thumb: subelement.images.low_resolution.url,
+                            Title: "",
+                            Igid: element.id+'-'+index,
+                            Topic: tag,
+                            Displayed: false
+                        }).catch(err =>{
+                        })
+                    })
+                }else{
+                    imgModel.create({ 
+                        Link: element.images.standard_resolution.url, 
+                        Thumb: element.images.low_resolution.url,
+                        Title: "",
+                        Igid: element.id,
+                        Topic: tag,
+                        Displayed: false
+                    }).catch(err => {
+                    })
+                }
+                
                 // Create new entry
-                topicModel.create({
-                    Title: tag,
-                    Tag: tag,
-                    Image: '',
-                    Displayed: false
-                }).catch({
-                    
-                })
+                if(tag){
+                    topicModel.create({
+                        Title: tag,
+                        Tag: tag,
+                        Image: element.images.low_resolution.url,
+                        Displayed: false
+                    }).catch(err =>{ 
+                        console.log(err)
+                    })
+                }
+                
                     
                 
             });
