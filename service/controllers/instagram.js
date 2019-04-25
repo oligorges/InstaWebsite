@@ -3,14 +3,24 @@ const Insta = require('node-instagram').default
 const config = require('../../config')
 const imgModel = require('../models/imageModel').Model
 const topicModel = require('../models/topicModel').Model
+const configModel = require('../models/configModel').Model
 const login = require('../middelware/Login')
-
+let instagram;
 // Instagram v2
-const instagram = new Insta({
-    clientId: config.server.insta.clientId,
-    clientSecret: config.server.insta.clientSecret,
-    accessToken: config.server.insta.token
-  })
+
+configModel.findOne({Key: 'IGKey'}).then(data=>{
+    instagram = new Insta({
+        clientId: config.server.insta.clientId,
+        clientSecret: config.server.insta.clientSecret,
+        accessToken: data.Value
+      })
+}).catch(err=>{
+    instagram = new Insta({
+        clientId: config.server.insta.clientId,
+        clientSecret: config.server.insta.clientSecret
+      })
+})
+
 module.exports = function(app) {
 
     const getUserInfo = ()=>{
@@ -57,7 +67,7 @@ module.exports = function(app) {
                     }).catch(err => {
                     })
                 }
-                
+
                 // Create new entry
                 if(tag){
                     topicModel.create({
@@ -81,22 +91,37 @@ module.exports = function(app) {
 
     }
 
+     /**
+   * @api {get} /instagram/database Updates the Database with new Images from Instagram
+   * @apiGroup Instagram
+   * @apiSuccess {json} Object with a Message and the amount of new images
+   */
     app.get('/database', login, (req, res)=>{
         let result = getImages()
         res.send({ msg: 'load new Data', size: result} )
     })
-
+    /**
+     * @api {get} /instagram/database Redirects the user to the Instagram Authentification Page to generate the Token
+     * @apiGroup Instagram
+     * @apiSuccess {redirect} Redirect to Instagram
+     */
     app.get('/auth', login, (req, res) => {
         res.redirect(
-        instagram.getAuthorizationUrl( `https://localhost:${config.server.port}/insta/auth/callback`,{scope: ['basic', 'public_content']})
+        instagram.getAuthorizationUrl( `https://${config.server.port}:${config.server.port}/insta/auth/callback`,{scope: ['basic', 'public_content']})
         )
     })
 
+    /**
+     * @api {get} /instagram/database Callback Endpoint to Recieve the Authentifcation code form Instagram
+     * @apiGroup Instagram
+     * @apiSuccess {json} User Information
+     * @apiSuccess {json} Error Message
+     */
     app.get('/auth/callback', async (req, res) => {
         try {
             // The code from the request, here req.query.code for express
             const code = req.query.code;
-            const data = await instagram.authorizeUser(code, `https://localhost:${config.server.port}/insta/auth/data`);
+            const data = await instagram.authorizeUser(code, `https://${config.server.port}:${config.server.port}/insta/auth/data`);
             // data.access_token contain the user access_token
             console.log(data)
             res.json(data);

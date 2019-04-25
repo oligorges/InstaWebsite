@@ -7,7 +7,13 @@ const hashPassword = require('../middelware/HashPw')
 const defaultConf = require('../../config').server
 
 module.exports = function(app) {
-
+     /**
+   * @api {get} /config returns the Server Configuration
+   * @apiGroup Config
+   *
+   * @apiSuccess {json} Array with all confiurations Data
+   * @apiError {json} Message 
+   */
     app.get('/', login, (req, res) => {
         model.find({}, (err, data) => {
             if (err){
@@ -18,7 +24,13 @@ module.exports = function(app) {
             
         })
     })
-
+    /**
+   * @api {get} /config/reset resets the Config Database
+   * @apiGroup Config
+   *
+   * @apiSuccess {status} 200
+   * @apiError {json} Error Message 
+   */
     app.get('/reset', login,  (req, res) => {
        
         model.collection.drop().then(()=>{
@@ -36,7 +48,13 @@ module.exports = function(app) {
         })
         
     })
-
+    /**
+     * @api {get} /config/public returns all Configuration Data for the public page
+     * @apiGroup Config
+     *
+     * @apiSuccess {json} Array with public config Data
+     * @apiError {json} Error Message 
+     */
     app.get('/public', (req, res) => {
         model.find({Public: true}, (err, data) => {
             if (err){
@@ -47,7 +65,13 @@ module.exports = function(app) {
             
         })
     })
-
+    /**
+     * @api {patch} /config/reset resets the Config Database
+     * @apiGroup Config
+     * @apiParam {String} key Changes the value for es specific Setting
+     * @apiSuccess {json} Object with updated data
+     * @apiError {json} Error Message 
+     */
     app.patch('/:key', login, (req, res)=>{
         console.log(req.params.key)
         if(req.params.key === 'password'){
@@ -63,7 +87,12 @@ module.exports = function(app) {
         })
     })
 
-    
+    /**
+     * @api {post} /config/logo Endepoint to upload a new Logo
+     * @apiGroup Config
+     * @apiSuccess {json} Object with upload Information
+     * @apiError {status} 400
+     */
 
     app.post('/logo', login, multer.single('image'), (req, res)=>{
         sharp(req.file.buffer).resize({ height: 500 }).toFile(defaultConf.DistPath+'logo.png', (err, info) => { 

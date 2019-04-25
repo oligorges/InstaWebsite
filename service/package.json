@@ -45,5 +45,6 @@
   },
   "apis": {
     "baseurl": "https://api.macvendors.com/"
-  }
+  },
+  "devDependencies": {}
 }

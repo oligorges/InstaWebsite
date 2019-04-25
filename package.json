@@ -8,8 +8,9 @@
         "start": "npm run build && cd service && node server.js ",
         "ui": "cd vue-ui && npm run serve",
         "server": "cd service && npm start",
-        "build": "cd vue-ui && npm run build",
-        "genCerts": "cd service && openssl genrsa -out ssl-key.pem 4096 && openssl req -new -key ssl-key.pem -out certrequest.csr && openssl x509 -req -in certrequest.csr -signkey ssl-key.pem -out ssl-cert.pem"
+        "build": "npm run genApiDoc && cd vue-ui && npm run build",
+        "genCerts": "cd service && openssl genrsa -out ssl-key.pem 4096 && openssl req -new -key ssl-key.pem -out certrequest.csr && openssl x509 -req -in certrequest.csr -signkey ssl-key.pem -out ssl-cert.pem",
+        "genApiDoc": "apidoc -i ./service -e '(node_modules|public)' -o service/apidoc "
     },
     "repository": {
         "type": "git",

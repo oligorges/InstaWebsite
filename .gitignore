@@ -1,6 +1,6 @@
 
-# config
-/conf*.js
+
 /*.pem
 /*.csr
 public/
+apidoc/

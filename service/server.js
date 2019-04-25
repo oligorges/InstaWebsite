@@ -34,7 +34,7 @@ const options = {
 };
 
 // DB
-db.connect(`mongodb://${config.server.DBUrl}:${config.server.DBPort}/${config.server.DBTable}`, {useNewUrlParser: true})
+db.connect(`mongodb://${config.server.DBUser}:${config.server.DBPW}@${config.server.DBUrl}:${config.server.DBPort}/${config.server.DBTable}`, {useNewUrlParser: true})
 
 // Login 
 pass.use(new LocalStrategy(
@@ -74,6 +74,7 @@ pass.deserializeUser(function(id, cb) {
 
 app.use('/', express.static('../vue-ui/dist'))
 app.use('/assets', express.static('./public'))
+app.use('/apidoc', express.static('./apidoc'))
 
 // Endpoint for testdata
 app.delete('/database', function(req, res){
@@ -143,7 +144,10 @@ require('./controllers/instagram')(instagram)
 app.use('/insta', instagram)
 
 // HTTPS Redirect
-http.get('/',  (req, res) => { res.redirect(`https://localhost:${config.server.port}`)})
+/**
+ * @api {get} Get https page
+ */
+http.get('/',  (req, res) => { res.redirect(`https://${config.server.host}:${config.server.port}`)})
 
 http.listen(8080)
-https.createServer(options, app).listen( config.server.port, () => { console.log(`Server is running on https://localhost:${config.server.port}`)})
+https.createServer(options, app).listen( config.server.port, () => { console.log(`Server is running on https://${config.server.host}:${config.server.port}`)})
