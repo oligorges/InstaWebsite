@@ -4,7 +4,10 @@ const Schema = {
     Link: String,
     Thumb: String,
     Name: String,
-    Igid: String,
+    Igid:{
+        type: String,
+        unique: true
+    },
     Topic: String,
     Displayed: Boolean
 }

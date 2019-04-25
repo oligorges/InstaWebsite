@@ -2,7 +2,10 @@ const db = require('mongoose')
 
 const Schema = {
     Name: String,
-    Tag: String,
+    Tag:{
+        type: String,
+        unique: true
+    },
     Image: String,
     Displayed: Boolean
 }
