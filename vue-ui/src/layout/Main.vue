@@ -3,6 +3,7 @@
         <div @click="scroll" id="home"><front :config="config"></front></div>
         <div id="content">
             <topics :config="config"></topics>
+            <vuefooter :config="config"></vuefooter>
         </div>
     </div>
 </template>
@@ -10,12 +11,14 @@
 
     import Front from '@/views/Frontpage.vue'
     import Topics from '@/views/Groups.vue'
+    import vuefooter from '@/components/footer.vue'
 
     export default {
         name: 'content',
         components: {
             Front,
-            Topics
+            Topics,
+            vuefooter
         },
         props:{ 
             config: Array

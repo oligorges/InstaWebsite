@@ -4,8 +4,12 @@
         <div id="nav">
             <router-link class="navLink" to="/aa/config">Configuration</router-link>
             <router-link class="navLink" to="/aa/image">Images</router-link>
-            <router-link class="navLink" to="/aa/group">Groups</router-link>
-            <button id="logout" @click="logout">Logout</button>
+            <router-link class="navLink" to="/aa/topic">Topics</router-link>
+            <div class="navGroup">
+                <button class="navButton" @click="logout">Logout</button>
+                <button class="navButton" @click="back">Back</button>
+            </div>
+            
         </div>
         <div id="settings">
             <router-view :config="config"></router-view>
@@ -36,12 +40,15 @@
                 })
             },
             methods: {
-                logout: function(){
+                logout(){
                     axios.get('/aa/logout').then(res => {
                         this.$router.push('/')
                     }).catch(()=>{
                         alert('Failed to Logout')
                     })
+                },
+                back(){
+                    window.location.href = window.location.origin
                 }
             }
         }
@@ -53,18 +60,23 @@
         text-decoration: none;
         color: black;
     }
-    #logout{
+    .navGroup{
         position: absolute;
         top: 15px;
         right: 15px;
-        height: 30px;
     }
+
+    .navButton{
+        height: 30px;
+        float: left;
+    }
+
     #nav{
         width: 100vw;
         height: 20px;
         padding: 20px 0px 20px 0px;
         border-right: solid 1px;
-        position: fixed;
+        position: relative;
         top: 0px;
         left: 0px;
         background-color: white;
@@ -87,15 +99,21 @@
         outline: none;
     }
     .tablecol{
-            width: 15vw;
-            float: left;
+        width: 14vw;
+        float: left;
+        margin-right: 10px;
+    }
+    .tablecol-2{
+        width: 28vw;
+        float: left;
+        margin-right: 10px;
     }
     .tablecol .big{
         font-weight: bold;
     }
     .tablerow{
         width: 100vw;
-        height: 100px;
+        height: 60px;
         align-content: center;
     }
     </style>

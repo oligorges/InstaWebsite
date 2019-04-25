@@ -1,8 +1,9 @@
 <template>
     <div >
-        <h1>Topic AA</h1>
+        <h1>Topic</h1>
         <button @click="add">Add Topic</button>
         <div class="tablerow">
+            <p class="tablecol"> </p>
             <p class="tablecol">Link</p>
             <p class="tablecol">Name</p>
             <p class="tablecol">Tag</p>

@@ -1,6 +1,10 @@
 <template>
   <div class="home">
       <img alt="Vue logo" id="index" :src="getValue('TitleImage')" />
+      <div id="welcome">
+        <img id="logo" :src="getValue('Logo')"/>
+        <p id="Intro">{{getValue('Intro')}}</p>
+      </div>
   </div>
 </template>
 
@@ -35,12 +39,16 @@ export default {
   top: 0px;
   left: 0px;
 }
-#index-overlay{
+#welcome{
   z-index: 2;
-  padding-top: 30vh;
+  height: 70vh;
+  width: 70vw;
+  top: 0px;
+  left: 0px;
+  padding: 15vh 15vw 15vh 15vw;
   font-size: 2rem;
   color: aqua;
-  position: relative;
+  position: absolute;
   align-content: center;
 }
 

@@ -3,9 +3,9 @@
             
             <form action="post">
                 <img class="tablecol" :src="element.Image" height="50px">
-                <input class="tablecol" @change="changed" type="text" name="Image" placeholder="Preview Image" v-model="element.Image">
-                <input class="tablecol" @change="changed" type="text" name="Name" placeholder="Name" v-model="element.Name">
-                <input class="tablecol" @change="changed" type="text" name="Tag" placeholder="Tag" v-model="element.Tag">
+                <input class="tablecol" @change="changed" type="text" name="image" placeholder="Preview Image" v-model="element.Image">
+                <input class="tablecol" @change="changed" type="text" placeholder="Name" v-model="element.Name"/>
+                <input class="tablecol" @change="changed" type="text" name="tag" placeholder="Tag" v-model="element.Tag">
                 <input class="tablecol" @change="changed" type="checkbox" name="display" v-model="element.Displayed" >
             </form>
             <button @click="update" class="tablecol">Save</button>
@@ -45,6 +45,7 @@
                     }
                 },
                 changed(){
+                    console.log(this.element)
                     this.send = true
                 }
             }

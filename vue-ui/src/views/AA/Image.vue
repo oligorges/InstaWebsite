@@ -1,7 +1,7 @@
 <template>
     
     <div >
-        <h1>Image AA</h1>
+        <h1>Image</h1>
         
         <div class="tablerow">
             <p class="tablecol big"></p>

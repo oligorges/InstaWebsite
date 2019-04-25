@@ -1,6 +1,7 @@
 <template>
     <div id="topic">
-        <button @click="back">Back</button>
+        
+            <span class="back" @click="back"><</span>
         <h1>{{ Name }}</h1>
         <div v-for="item in Images" :key="item.Text">
             <span v-on:blur="focus" v-on:click="big(item.Link)">
@@ -66,9 +67,15 @@ export default {
     }
 }
 </script>
-<style>
+<style scoped>
 #topic{
     align-content: center;
+}
+.back{
+    font-size: 2rem;
+    position: absolute;
+    left: 4vw;
+    cursor: pointer;
 }
 </style>
       
