@@ -65,14 +65,15 @@
             },
             change(){
                 axios.get('/insta/auth').then(config => {
-                    alert("Instagram Account changed")
+                    var win = window.open(config.data.url, '_blank');
+                    win.focus();
                 }).catch(()=>{
                     alert('change Failed')
                 })
             },
             reset(){
                 if(confirm('Are you sure that you want reset all Settings? \n !! This will also reset the Login Credentials !!')){
-                    axios.get('/config/reset').then(config => {
+                    axios.delete('/config').then(config => {
                         alert("Reset successfull")
                     }).catch(()=>{
                         alert('Reset Failed')

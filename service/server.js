@@ -76,71 +76,26 @@ app.use('/', express.static('../vue-ui/dist'))
 app.use('/assets', express.static('./public'))
 app.use('/apidoc', express.static('./apidoc'))
 
-// Endpoint for testdata
-app.delete('/database', function(req, res){
-    cImage.model.collection.drop();
-    cTopic.model.collection.drop()
-    res.send()
-})
-// Endpoint for testdata
-app.patch('/database', function(req, res){
-    const data  = [
-        { Link: 'Cat1', Thumb:'https://www.catster.com/wp-content/uploads/2017/08/A-fluffy-cat-looking-funny-surprised-or-concerned.jpg', link: 'https://www.catster.com/wp-content/uploads/2017/08/A-fluffy-cat-looking-funny-surprised-or-concerned.jpg', Name: 'Cat1', Igid:'123asd12', Topic: 'dog', Displayed: true },
-        { Link: 'Cat2', Thumb:'https://www.catster.com/wp-content/uploads/2017/08/A-fluffy-cat-looking-funny-surprised-or-concerned.jpg', link: 'https://www.catster.com/wp-content/uploads/2017/08/A-fluffy-cat-looking-funny-surprised-or-concerned.jpg', Name: 'Cat2', Igid:'123asd12',Topic: 'gen', Displayed: false },
-        { Link: 'Cat3', Thumb:'https://www.catster.com/wp-content/uploads/2017/08/A-fluffy-cat-looking-funny-surprised-or-concerned.jpg', link: 'https://www.catster.com/wp-content/uploads/2017/08/A-fluffy-cat-looking-funny-surprised-or-concerned.jpg', Name: 'Cat3', Igid:'123asd12', Topic: 'cat', Displayed: false },
-        { Link: 'Cat4', Thumb:'https://www.catster.com/wp-content/uploads/2017/08/A-fluffy-cat-looking-funny-surprised-or-concerned.jpg', link: 'https://www.catster.com/wp-content/uploads/2017/08/A-fluffy-cat-looking-funny-surprised-or-concerned.jpg', Name: 'Cat4', Igid:'123asd12', Topic: 'dog', Displayed: false },
-        { Link: 'Cat5', Thumb:'https://www.catster.com/wp-content/uploads/2017/08/A-fluffy-cat-looking-funny-surprised-or-concerned.jpg', link: 'https://www.catster.com/wp-content/uploads/2017/08/A-fluffy-cat-looking-funny-surprised-or-concerned.jpg', Name: 'Cat5', Igid:'123asd12', Topic: 'cat', Displayed: true },
-        { Link: 'Cat6', Thumb:'https://www.catster.com/wp-content/uploads/2017/08/A-fluffy-cat-looking-funny-surprised-or-concerned.jpg', link: 'https://www.catster.com/wp-content/uploads/2017/08/A-fluffy-cat-looking-funny-surprised-or-concerned.jpg', Name: 'Cat6', Igid:'123asd12', Topic: 'dog', Displayed: false },
-        { Link: 'Cat7', Thumb:'https://www.catster.com/wp-content/uploads/2017/08/A-fluffy-cat-looking-funny-surprised-or-concerned.jpg', link: 'https://www.catster.com/wp-content/uploads/2017/08/A-fluffy-cat-looking-funny-surprised-or-concerned.jpg', Name: 'Cat7', Igid:'123asd12', Topic: 'cat', Displayed: true },
-    ]
-    require('./models/imageModel').Model.create(data, (err)=>{
-        
-    })
-
-    const Topics = [
-        {  Name: 'Cats', Tag: 'cat', Image: 'Cat1'},
-        {  Name: 'Dogs', Tag: 'dog', Image: 'Cat2'},
-        {  Name: 'General', Tag: 'gen', Image: 'Cat3'}
-    ]
-    require('./models/topicModel').Model.create(Topics, (err)=>{
-        
-    })
-
-    const Conf = [
-        {  Key: 'Color', Value:'White', Public: true},
-        {  Key: 'Username', Value:'Oliver', Public: false},
-        {  Key: 'Password', Value:'', Public: false},
-        {  Key: 'IG Key', Value:'asdadq2423awdq3r32q', Public: false},
-        {  Key: 'IG Link', Value:'https://www.instagram.com/oli.gorges/', Public: true},
-        {  Key: 'Logo', Value:'/public/logo.png', Public: true },
-        {  Key: 'Title Image', Value:'https://i.kinja-img.com/gawker-media/image/upload/s--kHrQ8nr7--/c_scale,f_auto,fl_progressive,q_80,w_800/18huxz4bvnfjbjpg.jpg', Public: true },
-        {  Key: 'Intro', Value:'Welcome to my Portfolio', Public: true },
-    ]
-    require('./models/configModel').Model.create(Conf, (err)=>{
-        
-    })
-    res.send()
-})
 
 // Routers
 const sconfig = express.Router()
-require('./controllers/config')(sconfig)
+require('./routers/config.router')(sconfig)
 app.use('/config', sconfig)
 
 const image = express.Router()
-require('./controllers/image')(image)
+require('./routers/image.router')(image)
 app.use('/image', image)
 
 const topic = express.Router()
-require('./controllers/topic')(topic)
+require('./routers/topic.router')(topic)
 app.use('/topic', topic)
 
 const adminArea = express.Router()
-require('./controllers/adminArea')(adminArea)
+require('./routers/adminArea.router')(adminArea)
 app.use('/aa', adminArea)
 
 const instagram = express.Router()
-require('./controllers/instagram')(instagram)
+require('./routers/instagram.router')(instagram)
 app.use('/insta', instagram)
 
 // HTTPS Redirect

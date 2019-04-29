@@ -4,24 +4,16 @@ const config = require('../../config')
 const imgModel = require('../models/imageModel').Model
 const topicModel = require('../models/topicModel').Model
 const configModel = require('../models/configModel').Model
-const login = require('../middelware/Login')
 let instagram;
 // Instagram v2
 
-configModel.findOne({Key: 'IGKey'}).then(data=>{
     instagram = new Insta({
         clientId: config.server.insta.clientId,
         clientSecret: config.server.insta.clientSecret,
-        accessToken: data.Value
+        accessToken: config.server.insta.key,
       })
-}).catch(err=>{
-    instagram = new Insta({
-        clientId: config.server.insta.clientId,
-        clientSecret: config.server.insta.clientSecret
-      })
-})
 
-module.exports = function(app) {
+
 
     const getUserInfo = ()=>{
         instagram
@@ -37,6 +29,7 @@ module.exports = function(app) {
     }
 
     const getImages = ()=>{
+        console.log('getImageData')
         return instagram
         .get('users/self/media/recent')
         .then(result => {
@@ -86,47 +79,38 @@ module.exports = function(app) {
         })
         .catch(err => {
             // An error occured
+            console.log(err)
             return err
         });
 
     }
-
-     /**
-   * @api {get} /instagram/database Updates the Database with new Images from Instagram
-   * @apiGroup Instagram
-   * @apiSuccess {json} Object with a Message and the amount of new images
-   */
-    app.get('/database', login, (req, res)=>{
+    const updateDatabase = (req, res)=>{
         let result = getImages()
         res.send({ msg: 'load new Data', size: result} )
-    })
-    /**
-     * @api {get} /instagram/database Redirects the user to the Instagram Authentification Page to generate the Token
-     * @apiGroup Instagram
-     * @apiSuccess {redirect} Redirect to Instagram
-     */
-    app.get('/auth', login, (req, res) => {
-        res.redirect(
+    }
+    
+    const getAuthorization = (req, res) => {
+        res.send({ url:
         instagram.getAuthorizationUrl( `https://${config.server.port}:${config.server.port}/insta/auth/callback`,{scope: ['basic', 'public_content']})
-        )
-    })
-
-    /**
-     * @api {get} /instagram/database Callback Endpoint to Recieve the Authentifcation code form Instagram
-     * @apiGroup Instagram
-     * @apiSuccess {json} User Information
-     * @apiSuccess {json} Error Message
-     */
-    app.get('/auth/callback', async (req, res) => {
+        })
+    }
+    
+    const callback = async (req, res) => {
         try {
             // The code from the request, here req.query.code for express
             const code = req.query.code;
             const data = await instagram.authorizeUser(code, `https://${config.server.port}:${config.server.port}/insta/auth/data`);
             // data.access_token contain the user access_token
             console.log(data)
-            res.json(data);
+            configModel.updateOne({Key: "IGKey"}, {Value: data.access_token}).then(()=>{
+                res.send({msg: "Instagram Key updated"})
+            }).catch((err)=>{
+                res.json(err)
+            })
+            
         } catch (err) {
             res.json(err);
         }
-    })
-}
+    }
+
+    module.exports = { callback, getAuthorization, updateDatabase }
