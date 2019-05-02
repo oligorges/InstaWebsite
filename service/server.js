@@ -3,7 +3,7 @@ const app = express()
 const http = express()
 const fs = require('fs')
 const db = require('mongoose')
-const config = require('../config')
+const config = require('./../config')
 const configModel = require('./models/configModel').Model
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
@@ -71,7 +71,7 @@ pass.deserializeUser(function(id, cb) {
     cb(null, {id: id});
 });
 
-
+// Static Ressourses
 app.use('/', express.static('../vue-ui/dist'))
 app.use('/assets', express.static('./public'))
 app.use('/apidoc', express.static('./apidoc'))
@@ -98,9 +98,11 @@ const instagram = express.Router()
 require('./routers/instagram.router')(instagram)
 app.use('/insta', instagram)
 
-// HTTPS Redirect
+
 /**
- * @api {get} Get https page
+ * @api {get} / HTTPS Redirect
+ * @apiGroup General
+ * @apiSuccess Redirect Redirect to the HTTPS Port
  */
 http.get('/',  (req, res) => { res.redirect(`https://${config.server.host}:${config.server.port}`)})
 

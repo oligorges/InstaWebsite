@@ -7,7 +7,7 @@ const defaultConf = require('../../config').server
 const findAll = (req, res) => {
     model.find({}, (err, data) => {
         if (err){
-            res.send({msg:'Can`t find Object'})
+            res.status(500).send({msg:'Can`t find Object'})
         } else{
             res.send(data)
         }
@@ -28,16 +28,21 @@ const reset = (req, res) => {
         res.sendStatus(200)
     }).catch((err)=>{
         console.log(err);
-        res.status(400).send({msg: err})
+        res.status(500).send({msg: err})
     })
     
 }
 const findPublic = (req, res) => {
     model.find({Public: true}, (err, data) => {
         if (err){
-            res.send({msg:'Can`t find Object'})
+            res.status(500).send({msg:'Can`t find Object'})
         } else{
-            res.send(data)
+            if(data.length > 0){
+                res.send(data)
+            }else{
+                res.sendStatus(404)
+            }
+            
         }
         
     })
@@ -50,9 +55,13 @@ const findByKey = (req, res)=>{
     }
     model.updateOne({Key: req.params.key}, req.body, (err, data) => {
         if (err){
-            res.send({msg:'Can`t find Object'})
+            res.status(500).send({msg:'Can`t find Object'})
         } else{
-            res.send(data)
+            if(data){
+                res.send(data)
+            }else{
+                res.sendStatus(404)
+            }
         }
         
     })
@@ -62,7 +71,7 @@ const findByKey = (req, res)=>{
 const updateLogo = (req, res)=>{
     sharp(req.file.buffer).resize({ height: 500 }).toFile(defaultConf.DistPath+'logo.png', (err, info) => { 
         console.log(err, info)
-        if(err){ res.status(400) }
+        if(err){ res.status(500) }
         else{ res.send({info:info}) }
         
         })

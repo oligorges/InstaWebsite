@@ -1,7 +1,7 @@
 {
     "name": "API for InstaPortfolio",
     "version": "1.0.0",
-    "description": "Offers Configurationsmanagement for the InstaPortfolio",
+    "description": "Offers Backend Functionality and Configurationsmanagement for the InstaPortfolio",
     "template": {
         "forceLanguage": "en"
     }
