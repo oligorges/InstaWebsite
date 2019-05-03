@@ -4,7 +4,7 @@
     "description": "Service that creates a portfolio website out of selected instagramm images",
     "main": "server.js",
     "scripts": {
-        "init": "cd vue-ui && npm i && cd ../service && npm i",
+        "init": "cd vue-ui && npm i && cd ../service && npm i && npm run init",
         "start": "npm run build && cd service && node server.js ",
         "ui": "cd vue-ui && npm run serve",
         "server": "cd service && npm start",

@@ -5,6 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
+    "init": "node service/helper/initConfig.js",
     "build": "cd ../vue-ui && npm run build && cd ../service node server.js ",
     "test": "echo \"Error: no test specified\" && exit 1",
     "genCerts": "openssl genrsa -out ssl-key.pem 4096 && openssl req -new -key ssl-key.pem -out certrequest.csr && openssl x509 -req -in certrequest.csr -signkey ssl-key.pem -out ssl-cert.pem"
