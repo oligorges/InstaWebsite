@@ -3,7 +3,8 @@ const env = process.env.NODE_ENV || 'dev'
 
 const dev = {   
     server: {
-        port: process.env.PORT || 8170,
+        port: process.env.PORT || 8443,
+        httpport: process.env.HttpPORT || 8080,
         host: process.env.HOST || "localhost",
         DBPort: process.env.DBPORT || 27017,
         DBTable: process.env.DBTable || 'InstPort',
@@ -12,8 +13,8 @@ const dev = {
         DBPW: process.env.DBPW || '',
         DistPath: process.env.distPath || './public/',
         insta:{
-            clientId: process.env.IGClientID || '',
-            clientSecret: process.env.IGSecret || '',
+            clientId: process.env.IGClientID || 'adaeb5f3f05b4e02900d7e6d64f8604e',
+            clientSecret: process.env.IGSecret || '44b2c8b1cb6b43e2bc9a88cbf9fa5453',
         },
         settings: [
             {  Key: 'Color', Value: process.env.Color || '#000', Public: true},
@@ -34,11 +35,12 @@ const dev = {
 
 const prod = {
     server: {
-        port: process.env.PORT || 8170,
-        host: process.env.HOST || "localhost",
+        port: process.env.PORT || 443,
+        httpport: process.env.HttpPORT || 80,
+        host: process.env.HOST || '',
         DBPort: process.env.DBPORT || 27017,
         DBTable: process.env.DBTable || 'InstPort',
-        DBUrl: process.env.DBUrl || '127.0.0.1',
+        DBUrl: process.env.DBUrl || '',
         DBUser: process.env.DBUser || '',
         DBPW: process.env.DBPW || '',
         DistPath: process.env.distPath || './public/',

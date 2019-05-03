@@ -8,7 +8,7 @@ const configModel = require('./models/configModel').Model
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
 const pass = require('passport')
-const LocalStrategy = require('passport-local').Strategy;
+const LocalStrategy = require('passport-local').Strategy
 const session = require('express-session')
 const helmet = require('helmet')
 const https = require('https')
@@ -106,5 +106,5 @@ app.use('/insta', instagram)
  */
 http.get('/',  (req, res) => { res.redirect(`https://${config.server.host}:${config.server.port}`)})
 
-http.listen(8080)
+http.listen(config.server.httpport)
 https.createServer(options, app).listen( config.server.port, () => { console.log(`Server is running on https://${config.server.host}:${config.server.port}`)})
