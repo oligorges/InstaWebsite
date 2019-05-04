@@ -12,6 +12,7 @@ const dev = {
         DBUser: process.env.DBUser || '',
         DBPW: process.env.DBPW || '',
         DistPath: process.env.distPath || './public/',
+        pwsalt:  process.env.salt || 'I<3Salt',
         insta:{
             clientId: process.env.IGClientID || 'adaeb5f3f05b4e02900d7e6d64f8604e',
             clientSecret: process.env.IGSecret || '44b2c8b1cb6b43e2bc9a88cbf9fa5453',
@@ -44,6 +45,7 @@ const prod = {
         DBUser: process.env.DBUser || '',
         DBPW: process.env.DBPW || '',
         DistPath: process.env.distPath || './public/',
+        pwsalt:  process.env.salt || 'I<3Salt',
         insta:{
             clientId: process.env.IGClientID || '',
             clientSecret: process.env.IGSecret || '',

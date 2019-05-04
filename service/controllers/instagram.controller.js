@@ -90,11 +90,17 @@ const getImages = ()=>{
 
 }
 const updateDatabase = (req, res)=>{
-    let result = getImages()
-    if(result.status != 200){
-        res.status(result.status).send({ msg: 'Auth error', next: 'instagram/auth'} )
-    }
-    res.status(result.status).send({ msg: 'load new Data'} )
+    getImages().then((data)=>{
+        console.log(data)
+        if(data.status == 200){
+            res.status(200).send({ msg: 'load new Data'} )
+        }
+        res.status(400).send({ msg: 'Auth error', next: 'insta/auth'})
+    }).catch(err =>{
+        console.log(err)
+        res.status(500).send({ msg: 'Request Error'} )
+    })
+    
 }
 
 const getAuthorization = (req, res) => {
@@ -106,7 +112,7 @@ const getAuthorization = (req, res) => {
 const callback = async (req, res) => {
     try {
         const code = req.query.code;
-        const data = await instagram.authorizeUser(code, `https://${config.server.host}:${config.server.port}/insta/auth/data`);
+        const data = await instagram.authorizeUser(code, `https://${config.server.host}:${config.server.port}/insta/auth/callback`);
         // data.access_token contain the user access_token
         console.log(data)
         instagram = new Insta({
@@ -116,7 +122,7 @@ const callback = async (req, res) => {
         })
         
         configModel.updateOne({Key: "IGKey"}, {Value: data.access_token}).then(()=>{
-            res.send({msg: "Instagram Key updated", next: '/instagram/database'})
+            res.send({msg: "Instagram Key updated", next: '/insta/database'})
         }).catch((err)=>{
             res.json(err)
         })
