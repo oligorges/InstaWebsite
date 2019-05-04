@@ -52,16 +52,16 @@ export default {
             axios.get(`/topic/${this.$route.params.tag}`).then(topic => {
                     this.Name = topic.data.Title
                 }).catch(()=>{
-                    alert('Cant load Data')
+                    //alert('Cant load Data')
                 })
             axios.get(`/image/displayed/${this.$route.params.tag}`).then(img => {
                     this.Images = img.data
                 }).catch(()=>{
-                    alert('Cant load Data')
+                    //alert('Cant load Data')
                 })
         },
         focus(){
-            alert("Focus Loss")
+            //alert("Focus Loss")
         },
         back(){
             this.$router.push('/')

@@ -34,7 +34,7 @@
         axios.get('/topic/displayed').then(top => {
                 this.Topics = top.data
             }).catch(()=>{
-                alert('Cant load Topics')
+                //alert('Cant load Topics')
             })
       },
       getPath(tag){

@@ -53,13 +53,21 @@
                 axios.get('/config').then(config => {
                     this.Configuration = config.data
                 }).catch(()=>{
-                    alert('Cant load Configuration')
+                    //alert('Cant load Configuration')
                 })
             },
             update(){
                 axios.get('/insta/database').then(config => {
                     alert("Update successfull")
-                }).catch(()=>{
+                }).catch((err)=>{
+                    if(err.next){
+                        axios.get(err.next).then(config => {
+                            var win = window.open(config.data.url, '_blank');
+                            win.focus();
+                        }).catch(()=>{
+                            alert('change Failed')
+                        })
+                    }
                     alert('Cant update Database')
                 })
             },
