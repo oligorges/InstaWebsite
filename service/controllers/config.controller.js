@@ -1,7 +1,7 @@
 
-const model = require('../models/configModel').Model
+const model = require('../models/config.model').Model
 const sharp = require('sharp')
-const hashPassword = require('../middelware/HashPw')
+const hashPassword = require('../helper/HashPw')
 const defaultConf = require('../../config').server
 
 const findAll = (req, res) => {

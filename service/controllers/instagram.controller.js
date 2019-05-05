@@ -1,9 +1,9 @@
 
 const Insta = require('node-instagram').default
 const config = require('../../config')
-const imgModel = require('../models/imageModel').Model
-const topicModel = require('../models/topicModel').Model
-const configModel = require('../models/configModel').Model
+const imgModel = require('../models/image.model').Model
+const topicModel = require('../models/topic.model').Model
+const configModel = require('../models/config.model').Model
 let instagram
 
 // Instagram v2

@@ -1,6 +1,6 @@
 
 const db = require('mongoose')
-const model = require('../models/configModel').Model
+const model = require('../models/config.model').Model
 const config = require('../../config')
 
 db.connect(`mongodb://${config.server.DBUser}:${config.server.DBPW}@${config.server.DBUrl}:${config.server.DBPort}/${config.server.DBTable}`, {useNewUrlParser: true})

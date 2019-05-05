@@ -4,7 +4,7 @@ const http = express()
 const fs = require('fs')
 const db = require('mongoose')
 const config = require('./../config')
-const configModel = require('./models/configModel').Model
+const configModel = require('./models/config.model').Model
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
 const pass = require('passport')
@@ -12,14 +12,14 @@ const LocalStrategy = require('passport-local').Strategy
 const session = require('express-session')
 const helmet = require('helmet')
 const https = require('https')
-const hashPassword = require('./middelware/HashPw')
+const hashPassword = require('./helper/HashPw')
 require('dotenv').config();
 
 app.use(bodyParser.urlencoded({ extended: true })) // For Formdata
 app.use(bodyParser.json()) // For JSON
 app.use(morgan('dev'))
 app.use(helmet())
-app.use(session({ secret: process.env.SessionSeed, resave: false, saveUninitialized: false }))
+app.use(session({ secret: config.server.SessionSeed, resave: false, saveUninitialized: false }))
 app.use(pass.initialize())
 app.use(pass.session());
 app.enable('trust proxy')
@@ -108,3 +108,5 @@ http.get('/',  (req, res) => { res.redirect(`https://${config.server.host}:${con
 
 http.listen(config.server.httpport)
 https.createServer(options, app).listen( config.server.port, () => { console.log(`Server is running on https://${config.server.host}:${config.server.port}`)})
+
+module.exports = app

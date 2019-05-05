@@ -1,4 +1,4 @@
-const model = require('../models/topicModel').Model
+const model = require('../models/topic.model').Model
 
 const findAll = (req, res)=>{
     model.find({}, (err, data) => {

@@ -1,4 +1,4 @@
-const model = require('../models/imageModel').Model
+const model = require('../models/image.model').Model
 
 
 
