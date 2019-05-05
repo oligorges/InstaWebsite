@@ -33,8 +33,8 @@
                 axios.post('/aa/login', data).then(res => {
                     
                     this.$router.push('/aa/config')
-                }).catch(()=>{
-                    this.$router.push('/')
+                }).catch((err)=>{
+                    alert(err.msg)
                 })
             },
             getColor(){
