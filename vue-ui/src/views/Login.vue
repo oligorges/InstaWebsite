@@ -34,7 +34,7 @@
                     
                     this.$router.push('/aa/config')
                 }).catch((err)=>{
-                    alert(err.msg)
+                    alert(err.info.message)
                 })
             },
             getColor(){
