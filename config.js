@@ -52,8 +52,8 @@ const prod = {
         },
         settings: [
             {  Key: 'Color', Value: process.env.Color || '#000', Public: true},
-            {  Key: 'Username', Value: process.env.Username || 'Oliver', Public: false},
-            {  Key: 'Password', Value: process.env.Password || 'bec00353fe51634a2c28934b21d1e557dae7b32443e5929c4797dcd587d2dda9', Public: false},
+            {  Key: 'Username', Value: process.env.Username || 'admin', Public: false},
+            {  Key: 'Password', Value: process.env.Password || '0f48cb799a8ec16c4a62641246ec533afe589731d411ba7015f0d951a8bef3b0', Public: false},
             {  Key: 'IGKey', Value: process.env.IGKey || '', Public: false},
             {  Key: 'IGLink', Value: process.env.IGLink || 'https://www.instagram.com/oli.gorges/', Public: true},
             {  Key: 'TagRegex', Value: process.env.TagRegex || '_.*_', Public: false},
